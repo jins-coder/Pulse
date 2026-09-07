@@ -185,6 +185,33 @@ class InventoryService
 
 ---
 
+## 🗺️ Major Release Cycles & Roadmap
+
+Pulse follows Semantic Versioning (`SemVer 2.0.0`) with major generational leaps:
+
+```
+                      PULSE FRAMEWORK MAJOR GENERATIONS
+                                      │
+     ┌────────────────┬───────────────┼───────────────┬────────────────┐
+     ▼                ▼               ▼               ▼                ▼
+Pulse v1.x       Pulse v2.x      Pulse v3.0      Pulse v4.0       Pulse v5.0
+ (Helios)        (Quantum)       (Horizon)       (Infinity)     (Singularity)
+Foundation &     Fiber Reactor &  Autonomous AI   WASM & AOT      Omnipresent
+SSR↔SPA Sync     Pulse Studio     Edge Mesh       Micro-VMs       Zero-Latency
+```
+
+| Generation | Codename | Target Focus & Core Capabilities | Status |
+|---|---|---|---|
+| **Pulse v1.x** | *Helios* | Core Identity, SSR ↔ SPA Tri-Mode Routing, Reactive Components, Fibers, Toasts | **Complete & Shipped** |
+| **Pulse v2.x** | *Quantum* | Fiber Reactor (50k+ req/s), Pulse Studio, PulseX Hybrid Templates, AI Tool-Calling Agents | **Active & Live** |
+| **Pulse v3.0** | *Horizon* | Autonomous Multi-Agent Mesh, Self-Healing Queues, Distributed Cloud Edge Sync | **Planned** |
+| **Pulse v4.0** | *Infinity* | In-Browser WebAssembly (WASM) PHP, AOT Bytecode Compilation, Micro-VMs | **Research & Design** |
+| **Pulse v5.0** | *Singularity* | Omnipresent Zero-Latency Mesh, Natural Language Realtime UI Synthesis | **Vision Horizon** |
+
+👉 **For in-depth architectural milestones and future RFCs, see [ROADMAP.md](ROADMAP.md).**
+
+---
+
 ## 📄 License
 
 The Pulse Framework is open-sourced software licensed under the [MIT license](LICENSE).
