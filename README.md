@@ -1,13 +1,15 @@
 <div align="center">
 
-# ⚡ PULSE PHP FRAMEWORK
+<img src="public/assets/logo.svg" alt="Pulse Framework Logo" width="380">
+
+<br/><br/>
 
 ### **Next-Generation Full-Stack PHP Application Framework**
 *Persistent Fiber Reactor • PulseX Single-File Components • AI Agents • Zero-Build SPA*
 
 <br/>
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/jins-coder/Pulse/php.yml?branch=develop&style=for-the-badge&logo=github&logoColor=white&label=CI%20Build)](https://github.com/jins-coder/Pulse/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/jins-coder/Pulse/ci.yml?branch=develop&style=for-the-badge&logo=github&logoColor=white&label=CI%20Build)](https://github.com/jins-coder/Pulse/actions)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%20%7C%208.2%20%7C%208.3-777bb4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Release](https://img.shields.io/badge/Release-v2.0.0%20Quantum-6366f1?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/jins-coder/Pulse/releases)
 [![License](https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
@@ -15,25 +17,13 @@
 
 <br/>
 
-```
-  ____       _             ____  _   _ ____  
- |  _ \ _   _| |___  ___   |  _ \| | | |  _ \ 
- | |_) | | | | / __|/ _ \  | |_) | |_| | |_) |
- |  __/| |_| | \__ \  __/  |  __/|  _  |  __/ 
- |_|    \__,_|_|___/\___|  |_|   |_| |_|_|    
-                                              
-   PHP stays PHP. Pulse changes how it behaves.
-```
-
-<br/>
-
-[**Explore Features**](#-core-capabilities) •
-[**Quick Start (30s)**](#-quick-start) •
-[**PulseX Engine**](#-pulsex-single-file-components) •
-[**AI Agents**](#-ai-native-tool-calling-agents) •
-[**Fiber Reactor**](#-fiber-reactor-benchmarks) •
-[**Pulse Studio**](#-pulse-studio--time-travel-debugger) •
-[**Roadmap**](#-major-release-cycles--roadmap)
+[**📖 Full Documentation**](docs/index.md) •
+[**⚡ Quick Start**](#-quick-start) •
+[**🧩 PulseX Engine**](docs/components.md) •
+[**🤖 AI Agents**](docs/ai-agents.md) •
+[**🚀 Fiber Reactor**](docs/fiber-reactor.md) •
+[**🛠️ Artisan CLI**](docs/artisan-cli.md) •
+[**🗺️ Roadmap**](ROADMAP.md)
 
 ---
 

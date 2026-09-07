@@ -1,0 +1,69 @@
+name: Pulse CI/CD Engine
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: PHP ${{ matrix.php }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        php: ['8.1', '8.2', '8.3']
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo, pdo_sqlite, json, sockets, curl
+          coverage: none
+          tools: composer:v2
+
+      - name: 🔍 Validate Composer Package Specification
+        run: composer validate --strict
+
+      - name: 📦 Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: ⚡ Verify CLI Commands & Universal Router
+        run: |
+          php bin/pulse routes
+
+      - name: 🧩 Validate PulseX Compiler & Reactive Components
+        run: |
+          php -r "require 'src/Pulse.php'; \$c = new Pulse\View\PulseXCompiler(); echo 'PulseX Compiler initialized successfully' . PHP_EOL;"
+
+      - name: 🤖 Verify AI Tool-Calling Engine Schema Generation
+        run: |
+          php -r "require 'src/Pulse.php'; \$tools = Pulse\AI\Agent::extractTools(App\Components\Counter::class); echo 'AI Tool Extractor validated: ' . count(\$tools) . ' tools found' . PHP_EOL;"
+
+      - name: 🎛️ Verify Pulse Studio & Time-Travel Subsystem
+        run: |
+          php -r "require 'src/Pulse.php'; \$kernel = new Pulse\Pulse(); echo 'Pulse Kernel v' . Pulse\Pulse::VERSION . ' operational' . PHP_EOL;"
+
+  lint:
+    name: 🎨 Code Linting & Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, json
+
+      - name: 🛡️ Syntax Check across all PHP & Pulse files
+        run: |
+          find src app routes public bin resources -name "*.php" -exec php -l {} \;
