@@ -4,6 +4,24 @@ declare(strict_types=1);
 
 namespace Pulse;
 
+// Register Framework-level PSR-4 autoloader for standalone execution
+spl_autoload_register(function (string $class): void {
+    if (str_starts_with($class, 'Pulse\\')) {
+        $file = __DIR__ . '/' . str_replace('\\', '/', substr($class, 6)) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
+    if (str_starts_with($class, 'App\\')) {
+        $file = dirname(__DIR__) . '/app/' . str_replace('\\', '/', substr($class, 4)) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
+});
+
 use Pulse\Container\Container;
 use Pulse\Http\Request;
 use Pulse\Http\Response;

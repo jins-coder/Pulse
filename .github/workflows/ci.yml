@@ -49,7 +49,7 @@ jobs:
 
       - name: 🎛️ Verify Pulse Studio & Time-Travel Subsystem
         run: |
-          php -r "require 'src/Pulse.php'; \$kernel = new Pulse\Pulse(); echo 'Pulse Kernel v' . Pulse\Pulse::VERSION . ' operational' . PHP_EOL;"
+          php -r "require 'src/Pulse.php'; \$kernel = new Pulse\Pulse(__DIR__); echo 'Pulse Kernel v' . Pulse\Pulse::VERSION . ' operational' . PHP_EOL;"
 
   lint:
     name: 🎨 Code Linting & Syntax Check

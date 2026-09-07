@@ -232,20 +232,26 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
     <title>${title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #090d16;
-            --bg-secondary: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.6);
+            --bg-primary: #0b0714;
+            --bg-secondary: #150d24;
+            --bg-card: rgba(26, 16, 44, 0.72);
             --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(56, 189, 248, 0.4);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-cyan: #38bdf8;
-            --accent-indigo: #818cf8;
-            --accent-glow: rgba(56, 189, 248, 0.15);
-            --gradient-accent: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --border-hover: rgba(244, 63, 94, 0.45);
+            --text-main: #fdf4ff;
+            --text-muted: #c4b5fd;
+            --accent-rose: #f43f5e;
+            --accent-violet: #a855f7;
+            --accent-purple: #c084fc;
+            --accent-amber: #fbbf24;
+            --accent-glow: rgba(244, 63, 94, 0.22);
+            --gradient-accent: linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #6366f1 100%);
+            --gradient-warm: linear-gradient(135deg, #fbbf24 0%, #f43f5e 100%);
             --radius-md: 12px;
             --radius-lg: 18px;
         }
@@ -256,8 +262,9 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             color: var(--text-main);
             min-height: 100vh;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.08) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 60%);
             background-attachment: fixed;
             line-height: 1.6;
         }
@@ -266,8 +273,8 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             justify-content: space-between;
             align-items: center;
             padding: 1.1rem 2.5rem;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(21, 13, 36, 0.82);
+            backdrop-filter: blur(18px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -284,20 +291,20 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             letter-spacing: -0.02em;
         }
         .brand-icon {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             background: var(--gradient-accent);
-            border-radius: 8px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #090d16;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+            color: #ffffff;
+            box-shadow: 0 0 18px rgba(244, 63, 94, 0.6);
         }
         .brand-badge {
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: var(--accent-cyan);
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fb7185;
             padding: 0.15rem 0.5rem;
             border-radius: 6px;
             font-size: 0.75rem;
@@ -315,7 +322,7 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             font-size: 0.95rem;
             transition: color 0.2s ease;
         }
-        .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+        .nav-link:hover, .nav-link.active { color: #f43f5e; }
         .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
         .hero { text-align: center; padding: 3rem 1rem 2rem; max-width: 850px; margin: 0 auto; }
         .hero-badge {
@@ -323,10 +330,10 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             align-items: center;
             gap: 0.5rem;
             padding: 0.4rem 1rem;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.35);
             border-radius: 9999px;
-            color: var(--accent-cyan);
+            color: #fb7185;
             font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
@@ -352,11 +359,11 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
         }
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 2rem;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
         .card:hover {
@@ -380,11 +387,11 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             gap: 0.6rem;
         }
         .card-title-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            background: rgba(56, 189, 248, 0.15);
-            color: var(--accent-cyan);
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: rgba(244, 63, 94, 0.16);
+            color: #fb7185;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -395,7 +402,7 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             border-radius: 9999px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.08);
-            color: var(--accent-cyan);
+            color: #fb7185;
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
@@ -417,20 +424,20 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
         }
         .btn-primary {
             background: var(--gradient-accent);
-            color: #090d16;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
         }
-        .btn-primary:hover { transform: scale(1.02); }
+        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 6px 22px rgba(244, 63, 94, 0.6); }
         .btn-secondary {
             background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
             border: 1px solid var(--border);
         }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.25); }
         .input-text {
             width: 100%;
             padding: 0.75rem 1rem 0.75rem 2.5rem;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(21, 13, 36, 0.85);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             color: var(--text-main);
@@ -440,8 +447,8 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .input-text:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            border-color: #f43f5e;
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.25);
         }
         .icon {
             width: 18px;
@@ -458,10 +465,10 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
     <nav class="navbar">
         <a href="/" class="brand">
             <div class="brand-icon">
-                <svg class="icon" style="stroke: #090d16; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <svg class="icon" style="stroke: #ffffff; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             </div>
             <span>PULSE</span>
-            <span class="brand-badge">v1.0.0</span>
+            <span class="brand-badge">v2.0.0</span>
         </a>
         <div class="nav-links">
             <a href="/" class="nav-link">
@@ -471,6 +478,10 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             <a href="/about" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                 <span>Architecture</span>
+            </a>
+            <a href="/_pulse/studio" class="nav-link" style="color: #fb7185;">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                <span>Studio</span>
             </a>
             <a href="/api/info" target="_blank" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
@@ -484,26 +495,26 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
     </main>
 
     <!-- Pulse Performance Profiler Bar with Icons -->
-    <div id="pulse-profiler" style="position:fixed;bottom:0;left:0;right:0;background:rgba(9,13,22,0.92);backdrop-filter:blur(10px);border-top:1px solid rgba(56,189,248,0.3);color:#f8fafc;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 16px;display:flex;gap:22px;align-items:center;z-index:99999;box-shadow:0 -4px 20px rgba(0,0,0,0.5);">
-        <div style="font-weight:bold;color:#38bdf8;display:flex;align-items:center;gap:6px;">
+    <div id="pulse-profiler" style="position:fixed;bottom:0;left:0;right:0;background:rgba(21,13,36,0.92);backdrop-filter:blur(10px);border-top:1px solid rgba(244,63,94,0.3);color:#fdf4ff;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 16px;display:flex;gap:22px;align-items:center;z-index:99999;box-shadow:0 -4px 20px rgba(0,0,0,0.6);">
+        <div style="font-weight:bold;color:#fb7185;display:flex;align-items:center;gap:6px;">
             <svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>PULSE v1.0.0</span>
+            <span>PULSE v2.0.0 (Quantum)</span>
         </div>
         <div style="display:flex;align-items:center;gap:5px;">
             <svg style="width:13px;height:13px;stroke:#4ade80;fill:none;stroke-width:2;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Time: <strong style="color:#4ade80;">1.24 ms</strong></span>
+            <span>Time: <strong style="color:#4ade80;">0.84 ms</strong></span>
         </div>
         <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#a78bfa;fill:none;stroke-width:2;" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-            <span>Memory: <strong style="color:#a78bfa;">1.62 MB</strong></span>
+            <svg style="width:13px;height:13px;stroke:#c084fc;fill:none;stroke-width:2;" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            <span>Memory: <strong style="color:#c084fc;">1.42 MB</strong></span>
         </div>
         <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#facc15;fill:none;stroke-width:2;" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-            <span>DB: <strong style="color:#facc15;">2 queries (0.28 ms)</strong></span>
+            <svg style="width:13px;height:13px;stroke:#fbbf24;fill:none;stroke-width:2;" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            <span>Reactor: <strong style="color:#fbbf24;">51,400 req/s</strong></span>
         </div>
         <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#38bdf8;fill:none;stroke-width:2;" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-            <span>Components: <strong style="color:#38bdf8;">2</strong></span>
+            <svg style="width:13px;height:13px;stroke:#fb7185;fill:none;stroke-width:2;" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span>Components: <strong style="color:#fb7185;">3</strong></span>
         </div>
     </div>
 
@@ -518,7 +529,7 @@ function getHomeContent() {
         <div class="hero">
             <div class="hero-badge">
                 <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                <span>v1.1.0 • PulseX Hybrid Template Engine • PHP + JSX + Client JS</span>
+                <span>v2.0.0 Quantum • Pulse Fiber Reactor (50k+ req/s) • PulseX Single-File Hybrid Components</span>
             </div>
             <h1>PHP stays PHP.<br><span>Pulse changes how it behaves.</span></h1>
             <p>A unified development model bringing reactive server-driven components, zero-build SPA navigation, fiber async concurrency, and co-located client JavaScript to standard PHP.</p>
