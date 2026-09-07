@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Pulse\AI;
 
-#[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_FUNCTION)]
-class AiTool
-{
-    public function __construct(
-        public readonly string $description,
-        public readonly array $parameterDescriptions = []
-    ) {}
-}
-
 class Agent
 {
     protected array $tools = [];
+
+    public static function extractTools(string|object $classOrInstance): array
+    {
+        $agent = new self();
+        $refClass = new \ReflectionClass($classOrInstance);
+        foreach ($refClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            $attrs = $method->getAttributes(AiTool::class);
+            if (!empty($attrs)) {
+                $agent->registerTool($classOrInstance, $method->getName());
+            }
+        }
+        return $agent->getToolSchemas();
+    }
 
     public function registerTool(string|object $target, string $methodName): self
     {
