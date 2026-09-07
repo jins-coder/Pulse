@@ -36,20 +36,10 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: ⚡ Verify CLI Commands & Universal Router
-        run: |
-          php bin/pulse routes
+        run: php bin/pulse routes
 
-      - name: 🧩 Validate PulseX Compiler & Reactive Components
-        run: |
-          php -r "require 'src/Pulse.php'; \$c = new Pulse\View\PulseXCompiler(); echo 'PulseX Compiler initialized successfully' . PHP_EOL;"
-
-      - name: 🤖 Verify AI Tool-Calling Engine Schema Generation
-        run: |
-          php -r "require 'src/Pulse.php'; \$tools = Pulse\AI\Agent::extractTools(App\Components\Counter::class); echo 'AI Tool Extractor validated: ' . count(\$tools) . ' tools found' . PHP_EOL;"
-
-      - name: 🎛️ Verify Pulse Studio & Time-Travel Subsystem
-        run: |
-          php -r "require 'src/Pulse.php'; \$kernel = new Pulse\Pulse(__DIR__); echo 'Pulse Kernel v' . Pulse\Pulse::VERSION . ' operational' . PHP_EOL;"
+      - name: 🧪 Run Pulse Framework Core Test Suite
+        run: php tests/test_suite.php
 
   lint:
     name: 🎨 Code Linting & Syntax Check
