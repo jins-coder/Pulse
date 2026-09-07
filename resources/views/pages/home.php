@@ -4,7 +4,7 @@
     <div class="hero">
         <div class="hero-badge">
             <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>v1.1.0 • PulseX Hybrid Template Engine • PHP + JSX + Client JS</span>
+            <span>v2.0.0 Quantum • Pulse Fiber Reactor (50k+ req/s) • PulseX Single-File Hybrid Components</span>
         </div>
         <h1>PHP stays PHP.<br><span>Pulse changes how it behaves.</span></h1>
         <p>A unified development model bringing reactive server-driven components, zero-build SPA navigation, fiber async concurrency, and co-located client JavaScript to standard PHP.</p>
