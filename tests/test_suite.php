@@ -6,22 +6,28 @@ require_once __DIR__ . '/../src/Pulse.php';
 
 echo "⚡ Running Pulse Framework Core Test Suite...\n\n";
 
-$passed = 0;
-$failed = 0;
+class TestRunner
+{
+    public int $passed = 0;
+    public int $failed = 0;
 
-function it(string $description, callable $test) use (&$passed, &$failed): void {
-    try {
-        $test();
-        echo "  \033[32m✔\033[0m {$description}\n";
-        $passed++;
-    } catch (\Throwable $e) {
-        echo "  \033[31m✖\033[0m {$description}: {$e->getMessage()}\n";
-        $failed++;
+    public function it(string $description, callable $test): void
+    {
+        try {
+            $test();
+            echo "  \033[32m✔\033[0m {$description}\n";
+            $this->passed++;
+        } catch (\Throwable $e) {
+            echo "  \033[31m✖\033[0m {$description}: {$e->getMessage()}\n";
+            $this->failed++;
+        }
     }
 }
 
+$test = new TestRunner();
+
 // 1. Kernel Bootstrapping
-it('initializes Pulse Master Kernel and reports version 2.0.0 (Quantum)', function () {
+$test->it('initializes Pulse Master Kernel and reports version 2.0.0 (Quantum)', function () {
     $kernel = new Pulse\Pulse(dirname(__DIR__));
     if (Pulse\Pulse::VERSION !== '2.0.0') {
         throw new \Exception('Expected version 2.0.0, got ' . Pulse\Pulse::VERSION);
@@ -32,7 +38,7 @@ it('initializes Pulse Master Kernel and reports version 2.0.0 (Quantum)', functi
 });
 
 // 2. PSR-11 Auto-wiring Container
-it('resolves dependencies through PSR-11 Container', function () {
+$test->it('resolves dependencies through PSR-11 Container', function () {
     $container = Pulse\Container\Container::getInstance();
     $container->bind('demo.service', fn() => 'PulseService');
     if ($container->get('demo.service') !== 'PulseService') {
@@ -41,7 +47,7 @@ it('resolves dependencies through PSR-11 Container', function () {
 });
 
 // 3. PulseX Single-File Component Compiler
-it('compiles JSX markup and expressions in PulseXCompiler', function () {
+$test->it('compiles JSX markup and expressions in PulseXCompiler', function () {
     $compiler = new Pulse\View\PulseXCompiler();
     $rawMarkup = '<div class="test">{ $title }</div><if condition="$isActive"><span>Active</span></if>';
     $compiled = $compiler->compileMarkup($rawMarkup);
@@ -54,7 +60,7 @@ it('compiles JSX markup and expressions in PulseXCompiler', function () {
 });
 
 // 4. AI Tool-Calling Engine
-it('extracts structured JSON tool definitions using #[AiTool] attributes', function () {
+$test->it('extracts structured JSON tool definitions using #[AiTool] attributes', function () {
     $tools = Pulse\AI\Agent::extractTools(App\Components\Counter::class);
     if (!is_array($tools)) {
         throw new \Exception('Expected array of tool schemas');
@@ -62,7 +68,7 @@ it('extracts structured JSON tool definitions using #[AiTool] attributes', funct
 });
 
 // 5. Database Schema & Multi-Tenancy Scoping
-it('creates database tables and enforces multi-tenant context', function () {
+$test->it('creates database tables and enforces multi-tenant context', function () {
     Pulse\Database\TenantContext::setTenantId('tenant_qa_01');
     if (Pulse\Database\TenantContext::getTenantId() !== 'tenant_qa_01') {
         throw new \Exception('Tenant context propagation failed');
@@ -71,10 +77,10 @@ it('creates database tables and enforces multi-tenant context', function () {
 });
 
 echo "\n==========================================\n";
-echo "Tests Passed: \033[32m{$passed}\033[0m | Failed: \033[31m{$failed}\033[0m\n";
+echo "Tests Passed: \033[32m{$test->passed}\033[0m | Failed: \033[31m{$test->failed}\033[0m\n";
 echo "==========================================\n";
 
-if ($failed > 0) {
+if ($test->failed > 0) {
     exit(1);
 }
 
