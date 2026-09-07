@@ -14,6 +14,12 @@ $app->router->get('/', function () {
     ]);
 })->name('home');
 
+$app->router->get('/docs', function () {
+    return view('pages.docs', [
+        'title' => 'Documentation • Pulse PHP Application Framework',
+    ]);
+})->name('docs');
+
 $app->router->get('/about', function () {
     return view('pages.about', [
         'title' => 'Architecture & Subsystems • Pulse PHP',
