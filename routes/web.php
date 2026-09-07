@@ -20,6 +20,11 @@ $app->router->get('/about', function () {
     ]);
 })->name('about');
 
+// Pulse Studio & Time-Travel Debugger (v2.0)
+$app->router->get('/_pulse/studio', function (Request $request) {
+    return \Pulse\Studio\Studio::handle($request);
+})->name('pulse.studio');
+
 // Observability & Request Replay Studio
 $app->router->get('/_pulse/replay', function () {
     return [

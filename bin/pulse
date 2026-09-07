@@ -25,8 +25,17 @@ echo "\033[36m⚡ Pulse PHP Application Framework CLI v1.0\033[0m\n\n";
 
 switch ($command) {
     case 'serve':
-        $host = $argv[2] ?? '127.0.0.1:8000';
-        echo "Starting Pulse server on http://{$host} ...\n";
+        $isReactor = in_array('--reactor', $argv);
+        $host = $argv[2] && !str_starts_with($argv[2], '--') ? $argv[2] : '127.0.0.1:8000';
+        
+        if ($isReactor) {
+            [$h, $p] = explode(':', $host);
+            $reactor = new \Pulse\Runtime\FiberReactor($h, (int)$p, $baseDir);
+            $reactor->start();
+            break;
+        }
+
+        echo "Starting Pulse development server on http://{$host} ...\n";
         passthru("php -S {$host} -t {$baseDir}/public");
         break;
 

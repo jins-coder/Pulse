@@ -21,8 +21,8 @@ use Pulse\Plugins\PluginManager;
 
 class Pulse
 {
-    public const VERSION = '1.0.0';
-    public const CODENAME = 'Helios';
+    public const VERSION = '2.0.0';
+    public const CODENAME = 'Quantum';
 
     private static ?Pulse $instance = null;
     public readonly Container $container;
