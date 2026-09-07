@@ -8,10 +8,31 @@ abstract class Component
 {
     public string $id;
     protected array $listeners = [];
+    protected array $toasts = [];
 
     public function __construct(?string $id = null)
     {
         $this->id = $id ?? 'cmp_' . substr(bin2hex(random_bytes(6)), 0, 8);
+    }
+
+    public function toast(string $message, string $type = 'success'): void
+    {
+        $this->toasts[] = [
+            'id' => 'toast_' . substr(bin2hex(random_bytes(4)), 0, 8),
+            'message' => $message,
+            'type' => $type,
+            'timestamp' => microtime(true),
+        ];
+    }
+
+    public function getToasts(): array
+    {
+        return $this->toasts;
+    }
+
+    public function getListeners(): array
+    {
+        return $this->listeners;
     }
 
     public function mount(...$params): void

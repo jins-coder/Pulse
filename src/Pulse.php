@@ -156,6 +156,8 @@ class Pulse
                 'id' => $component->id,
                 'html' => $component->toHtml(),
                 'state' => $component->getPublicState(),
+                'toasts' => $component->getToasts(),
+                'listeners' => $component->getListeners(),
                 'success' => true
             ]);
         } catch (\Throwable $e) {

@@ -130,6 +130,36 @@
             }
         }
 
+        showToast(message, type = 'success') {
+            let container = document.getElementById('pulse-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'pulse-toast-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:999999;display:flex;flex-direction:column;gap:10px;pointer-events:none;';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            const bg = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : type === 'warning' ? 'rgba(245, 158, 11, 0.95)' : 'rgba(15, 23, 42, 0.95)';
+            const border = type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#38bdf8';
+            
+            toast.style.cssText = `background:${bg};border-left:4px solid ${border};color:#f8fafc;padding:12px 18px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,0.5);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;pointer-events:auto;transform:translateX(100px);opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);backdrop-filter:blur(10px);`;
+            
+            toast.innerHTML = `<span>⚡</span><span>\${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateX(0)';
+                toast.style.opacity = '1';
+            });
+
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100px)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
         // ==========================================
         // 2. Reactive Component System
         // ==========================================
@@ -280,6 +310,12 @@
                 }
 
                 const data = await res.json();
+                
+                // Handle returned toast notifications
+                if (data.toasts && Array.isArray(data.toasts)) {
+                    data.toasts.forEach(t => this.showToast(t.message, t.type));
+                }
+
                 if (data.html) {
                     const temp = document.createElement('div');
                     temp.innerHTML = data.html.trim();

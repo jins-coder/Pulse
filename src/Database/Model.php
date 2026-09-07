@@ -164,6 +164,28 @@ class QueryBuilder
         return $this->connection->query($sql, $this->bindings)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function count(): int
+    {
+        $this->applyTenantScope();
+        $sql = "SELECT COUNT(*) as aggregate FROM {$this->table}";
+        if (!empty($this->wheres)) {
+            $clauses = array_map(fn($w) => "{$w['column']} {$w['operator']} ?", $this->wheres);
+            $sql .= " WHERE " . implode(' AND ', $clauses);
+        }
+        $row = $this->connection->query($sql, $this->bindings)->fetch(PDO::FETCH_ASSOC);
+        return (int)($row['aggregate'] ?? 0);
+    }
+
+    public function paginate(int $perPage = 15, int $page = 1): Paginator
+    {
+        $total = $this->count();
+        $offset = ($page - 1) * $perPage;
+        $items = $this->limit($perPage)->offset($offset)->get();
+        $lastPage = (int)ceil($total / max(1, $perPage));
+
+        return new Paginator($items, $total, $perPage, $page, max(1, $lastPage));
+    }
+
     public function first(): ?array
     {
         $results = $this->limit(1)->get();

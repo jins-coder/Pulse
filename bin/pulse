@@ -32,10 +32,43 @@ switch ($command) {
 
     case 'make:component':
         $name = $argv[2] ?? null;
+        $isPulseSingleFile = in_array('--pulse', $argv);
         if (!$name) {
             echo "\033[31mError: Component name required. Example: php bin/pulse make:component UserCard\033[0m\n";
             exit(1);
         }
+
+        if ($isPulseSingleFile) {
+            $pulseFile = "{$baseDir}/app/Components/{$name}.pulse";
+            $pulseTemplate = <<<PULSE
+<php>
+namespace App\Components;
+use Pulse\Component\Component;
+
+class {$name} extends Component
+{
+    public string \$title = '{$name} Component';
+}
+</php>
+
+<div class="card">
+    <h3>{ \$this->title }</h3>
+    <p>Authored in a single .pulse file with zero build tools!</p>
+</div>
+
+<script client>
+return {
+    mounted(el, wire) {
+        console.log('{$name} mounted in browser', wire);
+    }
+};
+</script>
+PULSE;
+            file_put_contents($pulseFile, $pulseTemplate);
+            echo "\033[32m✔ Created PulseX Single-File Component: {$pulseFile}\033[0m\n";
+            break;
+        }
+
         $compFile = "{$baseDir}/app/Components/{$name}.php";
         $viewFile = "{$baseDir}/resources/views/components/" . strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $name)) . ".php";
         
@@ -64,6 +97,55 @@ PHP;
         file_put_contents($viewFile, "<div>\n    <h3><?= e(\$message) ?></h3>\n</div>");
         echo "\033[32m✔ Created Pulse Component: {$compFile}\033[0m\n";
         echo "\033[32m✔ Created View Template: {$viewFile}\033[0m\n";
+        break;
+
+    case 'make:migration':
+        $name = $argv[2] ?? 'create_table';
+        $timestamp = date('Y_m_d_His');
+        $migDir = "{$baseDir}/database/migrations";
+        if (!is_dir($migDir)) @mkdir($migDir, 0777, true);
+        $migFile = "{$migDir}/{$timestamp}_{$name}.php";
+        $migTemplate = <<<PHP
+<?php
+
+declare(strict_types=1);
+
+use Pulse\Database\Migration;
+use Pulse\Database\Schema;
+use Pulse\Database\Blueprint;
+
+return new class extends Migration {
+    public function up(): void {
+        Schema::create('{$name}', function (Blueprint \$table) {
+            \$table->id();
+            \$table->tenantId();
+            \$table->string('name');
+            \$table->timestamps();
+        });
+    }
+
+    public function down(): void {
+        Schema::dropIfExists('{$name}');
+    }
+};
+PHP;
+        file_put_contents($migFile, $migTemplate);
+        echo "\033[32m✔ Created Migration: {$migFile}\033[0m\n";
+        break;
+
+    case 'db:migrate':
+        echo "Running database migrations...\n";
+        $migDir = "{$baseDir}/database/migrations";
+        if (is_dir($migDir)) {
+            foreach (glob("{$migDir}/*.php") as $file) {
+                $mig = require $file;
+                if ($mig instanceof \Pulse\Database\Migration) {
+                    $mig->up();
+                    echo "  \033[32m✔ Migrated:\033[0m " . basename($file) . "\n";
+                }
+            }
+        }
+        echo "\033[32mAll migrations executed successfully.\033[0m\n";
         break;
 
     case 'make:page':
