@@ -14,7 +14,8 @@
             "App\\": "app/"
         },
         "files": [
-            "src/Async/functions.php"
+            "src/Async/functions.php",
+            "src/helpers.php"
         ]
     },
     "bin": [
