@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 require_once __DIR__ . '/../src/Pulse.php';
 
 echo "⚡ Running Pulse Framework Core Test Suite...\n\n";

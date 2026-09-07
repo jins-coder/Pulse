@@ -64,7 +64,7 @@ class PulseXCompiler
             return '<?= ' . trim($matches[1]) . ' ?>';
         }, $html);
 
-        // 2. Convert Escaped { $expr } -> <?= e($expr) ?>
+        // 2. Convert Escaped { $expr } -> echo e($expr)
         $html = preg_replace_callback('/(?<!\{)\{\s*([^\{].*?)\s*\}(?!\})/s', function ($matches) {
             $expr = trim($matches[1]);
             // Skip JS object literals inside tags if any
