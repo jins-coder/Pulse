@@ -60,7 +60,9 @@ class PulseXCompiler
     public function compileMarkup(string $html): string
     {
         // 1. Convert Unescaped {!! $expr !!}
-        $html = preg_replace('/\{\!\!(.*?)\!\!\}/s', '<?= $1 ?>', $html);
+        $html = preg_replace_callback('/\{\!\!(.*?)\!\!\}/s', function ($matches) {
+            return '<?= ' . trim($matches[1]) . ' ?>';
+        }, $html);
 
         // 2. Convert Escaped { $expr } -> <?= e($expr) ?>
         $html = preg_replace_callback('/(?<!\{)\{\s*([^\{].*?)\s*\}(?!\})/s', function ($matches) {
@@ -73,13 +75,22 @@ class PulseXCompiler
         }, $html);
 
         // 3. Convert <if condition="..."> ... </if>
-        $html = preg_replace('/<if\s+condition=["\'](.*?)["\']>/i', '<?php if ($1): ?>', $html);
-        $html = preg_replace('/<elseif\s+condition=["\'](.*?)["\']>/i', '<?php elseif ($1): ?>', $html);
+        $html = preg_replace_callback('/<if\s+condition=["\'](.*?)["\']>/i', function ($matches) {
+            return '<?php if (' . $matches[1] . '): ?>';
+        }, $html);
+
+        $html = preg_replace_callback('/<elseif\s+condition=["\'](.*?)["\']>/i', function ($matches) {
+            return '<?php elseif (' . $matches[1] . '): ?>';
+        }, $html);
+
         $html = preg_replace('/<else\s*\/?>/i', '<?php else: ?>', $html);
         $html = preg_replace('/<\/if>/i', '<?php endif; ?>', $html);
 
         // 4. Convert <for each="..."> ... </for>
-        $html = preg_replace('/<for\s+each=["\'](.*?)["\']>/i', '<?php foreach ($1): ?>', $html);
+        $html = preg_replace_callback('/<for\s+each=["\'](.*?)["\']>/i', function ($matches) {
+            return '<?php foreach (' . $matches[1] . '): ?>';
+        }, $html);
+
         $html = preg_replace('/<\/for>/i', '<?php endforeach; ?>', $html);
 
         // 5. Convert <x-component-name :prop="$expr" prop="val" />
