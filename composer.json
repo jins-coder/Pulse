@@ -1,0 +1,27 @@
+{
+    "name": "pulse/framework",
+    "description": "Pulse — The Modern Reactive, Realtime, Full-Stack PHP Application Framework",
+    "version": "1.0.0",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pulse Core Team"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pulse\\": "src/",
+            "App\\": "app/"
+        },
+        "files": [
+            "src/Async/functions.php"
+        ]
+    },
+    "bin": [
+        "bin/pulse"
+    ],
+    "require": {
+        "php": ">=8.1"
+    }
+}

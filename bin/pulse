@@ -1,0 +1,123 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+$baseDir = dirname(__DIR__);
+
+// Auto-loader
+spl_autoload_register(function ($class) use ($baseDir) {
+    if (str_starts_with($class, 'Pulse\\')) {
+        $file = $baseDir . '/src/' . str_replace('\\', '/', substr($class, 6)) . '.php';
+        if (file_exists($file)) require_once $file;
+    } elseif (str_starts_with($class, 'App\\')) {
+        $file = $baseDir . '/app/' . str_replace('\\', '/', substr($class, 4)) . '.php';
+        if (file_exists($file)) require_once $file;
+    }
+});
+
+require_once $baseDir . '/src/Async/functions.php';
+
+$argv = $_SERVER['argv'] ?? [];
+$command = $argv[1] ?? 'help';
+
+echo "\033[36m⚡ Pulse PHP Application Framework CLI v1.0\033[0m\n\n";
+
+switch ($command) {
+    case 'serve':
+        $host = $argv[2] ?? '127.0.0.1:8000';
+        echo "Starting Pulse server on http://{$host} ...\n";
+        passthru("php -S {$host} -t {$baseDir}/public");
+        break;
+
+    case 'make:component':
+        $name = $argv[2] ?? null;
+        if (!$name) {
+            echo "\033[31mError: Component name required. Example: php bin/pulse make:component UserCard\033[0m\n";
+            exit(1);
+        }
+        $compFile = "{$baseDir}/app/Components/{$name}.php";
+        $viewFile = "{$baseDir}/resources/views/components/" . strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $name)) . ".php";
+        
+        $compTemplate = <<<PHP
+<?php
+
+declare(strict_types=1);
+
+namespace App\Components;
+
+use Pulse\Component\Component;
+
+class {$name} extends Component
+{
+    public string \$message = 'Hello from {$name}';
+
+    public function render(): string
+    {
+        return view('components.' . strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', '{$name}')), [
+            'message' => \$this->message,
+        ]);
+    }
+}
+PHP;
+        file_put_contents($compFile, $compTemplate);
+        file_put_contents($viewFile, "<div>\n    <h3><?= e(\$message) ?></h3>\n</div>");
+        echo "\033[32m✔ Created Pulse Component: {$compFile}\033[0m\n";
+        echo "\033[32m✔ Created View Template: {$viewFile}\033[0m\n";
+        break;
+
+    case 'make:page':
+        $name = $argv[2] ?? null;
+        if (!$name) {
+            echo "\033[31mError: Page name required. Example: php bin/pulse make:page Dashboard\033[0m\n";
+            exit(1);
+        }
+        $slug = strtolower($name);
+        $viewFile = "{$baseDir}/resources/views/pages/{$slug}.php";
+        $pageContent = "<?php \$this->extends('layout'); ?>\n\n<div class=\"container\">\n    <h1>{$name} Page</h1>\n</div>";
+        file_put_contents($viewFile, $pageContent);
+        echo "\033[32m✔ Created Pulse Page: {$viewFile}\033[0m\n";
+        break;
+
+    case 'make:model':
+        $name = $argv[2] ?? null;
+        if (!$name) {
+            echo "\033[31mError: Model name required. Example: php bin/pulse make:model Order\033[0m\n";
+            exit(1);
+        }
+        $modelFile = "{$baseDir}/app/Models/{$name}.php";
+        $modelTemplate = <<<PHP
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Pulse\Database\Model;
+
+class {$name} extends Model
+{
+    protected bool \$isMultiTenant = true;
+}
+PHP;
+        file_put_contents($modelFile, $modelTemplate);
+        echo "\033[32m✔ Created Pulse Model: {$modelFile}\033[0m\n";
+        break;
+
+    case 'routes':
+        echo "Registered Pulse Routes:\n";
+        echo "  GET  /               -> Home (SSR ↔ SPA)\n";
+        echo "  GET  /about          -> About Architecture (SSR ↔ SPA)\n";
+        echo "  GET  /api/info       -> API Mode (JSON)\n";
+        echo "  POST /_pulse/action  -> Reactive Component Dispatch\n";
+        break;
+
+    default:
+        echo "Available Pulse commands:\n";
+        echo "  php bin/pulse serve [host:port]        Start development server\n";
+        echo "  php bin/pulse make:component <Name>    Create reactive PHP component & view\n";
+        echo "  php bin/pulse make:page <Name>         Create a page view\n";
+        echo "  php bin/pulse make:model <Name>        Create a multi-tenant model\n";
+        echo "  php bin/pulse routes                   List registered routes\n";
+        break;
+}
