@@ -21,7 +21,11 @@ class TestRunner
             echo "  \033[32m✔\033[0m {$description}\n";
             $this->passed++;
         } catch (\Throwable $e) {
-            echo "  \033[31m✖\033[0m {$description}: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}\n";
+            $msg = "{$description}: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}";
+            echo "  \033[31m✖\033[0m {$msg}\n";
+            if (getenv('GITHUB_ACTIONS') === 'true') {
+                echo "::error file={$e->getFile()},line={$e->getLine()}::{$msg}\n";
+            }
             $this->failed++;
         }
     }
@@ -81,11 +85,11 @@ $test->it('creates database tables and enforces multi-tenant context', function 
 
 // 6. Laravel-style Documentation Route & HTML Page Rendering
 $test->it('loads and renders Laravel-style documentation HTML page with HTTP 200', function () {
-    $kernel = new Pulse\Pulse(dirname(__DIR__));
-    require_once dirname(__DIR__) . '/routes/web.php';
+    $app = new Pulse\Pulse(dirname(__DIR__));
+    require dirname(__DIR__) . '/routes/web.php';
 
     $request = Pulse\Http\Request::create('/docs');
-    $response = $kernel->handle($request);
+    $response = $app->handle($request);
 
     if ($response->statusCode !== 200) {
         throw new \Exception('Expected HTTP 200, got ' . $response->statusCode);

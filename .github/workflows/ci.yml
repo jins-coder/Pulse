@@ -48,7 +48,7 @@ jobs:
       - name: 📖 Pre-render Laravel-style HTML Documentation Pages
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.3'
         run: |
-          php bin/export-docs.php _site /Pulse
+          php bin/export-docs.php _site /${{ github.event.repository.name }}
 
       - name: 📊 Publish Laravel-Style HTML CI Summary to GitHub Actions
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.3'
@@ -131,7 +131,7 @@ jobs:
 
       - name: 🏗️ Export Static Documentation Website
         run: |
-          php bin/export-docs.php _site /Pulse
+          php bin/export-docs.php _site /${{ github.event.repository.name }}
 
       - name: 📤 Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3

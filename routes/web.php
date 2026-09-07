@@ -6,6 +6,7 @@ use Pulse\Pulse;
 use Pulse\Http\Request;
 
 /** @var Pulse $app */
+$app = $app ?? \Pulse\Pulse::getInstance();
 
 // Web Routes (Tri-Mode: SSR on initial visit, SPA on internal navigation, JSON for API)
 $app->router->get('/', function () {
