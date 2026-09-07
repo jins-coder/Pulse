@@ -85,7 +85,9 @@ class ViewEngine
 
         /** @var Component $component */
         $component = new $class();
-        $component->mount(...$params);
+        if (method_exists($component, 'mount')) {
+            $component->mount(...$params);
+        }
         foreach ($params as $key => $value) {
             if (property_exists($component, $key)) {
                 $component->{$key} = $value;

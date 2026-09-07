@@ -35,11 +35,6 @@ abstract class Component
         return $this->listeners;
     }
 
-    public function mount(...$params): void
-    {
-        // Lifecycle hook
-    }
-
     public function updating(string $property, mixed $value): void
     {
         // Hook before state mutation
