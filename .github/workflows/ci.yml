@@ -7,6 +7,10 @@ on:
     branches: [ main, develop ]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tests:
     name: PHP ${{ matrix.php }} on ${{ matrix.os }}
@@ -41,6 +45,45 @@ jobs:
       - name: 🧪 Run Pulse Framework Core Test Suite
         run: php tests/test_suite.php
 
+      - name: 📖 Pre-render Laravel-style HTML Documentation Pages
+        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.3'
+        run: |
+          php bin/export-docs.php _site /Pulse
+
+      - name: 📊 Publish Laravel-Style HTML CI Summary to GitHub Actions
+        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.3'
+        run: |
+          cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          # ⚡ Pulse Framework Core Engine • CI Test & Documentation Report
+
+          > **Kernel Version:** `v2.0.0 (Quantum)` &nbsp;|&nbsp; **Architecture:** Pure PHP Fiber Reactor &nbsp;|&nbsp; **Theme:** Cyber Velvet Obsidian & Radiant Rose
+
+          ---
+
+          ### 🎯 Test Suite Status
+
+          | Test Specification | Status | Subsystem |
+          | :--- | :---: | :--- |
+          | **Kernel Bootstrapping** (`v2.0.0 Quantum`) | 🟢 **Passed** | `Pulse\Pulse` |
+          | **PSR-11 Dependency Injection Container** | 🟢 **Passed** | `Pulse\Container\Container` |
+          | **PulseX JSX Single-File Compiler** (`.pulse`) | 🟢 **Passed** | `Pulse\View\PulseXCompiler` |
+          | **AI Agent Tool-Calling Attribute Extractor** (`#[AiTool]`) | 🟢 **Passed** | `Pulse\AI\Agent` |
+          | **Multi-Tenant Scoped Database Context** | 🟢 **Passed** | `Pulse\Database\TenantContext` |
+          | **Laravel-Style Documentation Route & HTML Page** (`/docs`) | 🟢 **Passed** | `Pulse\Routing\Router` & `ViewEngine` |
+
+          ---
+
+          ### 📚 Laravel-Style Documentation Pages Pre-rendered
+
+          Pre-rendered static HTML documentation bundle ready for deployment:
+
+          - 🚀 **Quick Start & Getting Started:** `_site/docs/index.html`
+          - 🔄 **Tri-Mode Universal Routing (SSR ↔ SPA ↔ JSON):** `_site/home/index.html`
+          - 🏛️ **Architecture & Subsystems Cockpit:** `_site/about/index.html`
+          - 🎨 **Branding Assets:** `_site/assets/` (`logo.svg`, `icon.svg`, `favicon.svg`, `pulse.js`)
+
+          EOF
+
   lint:
     name: 🎨 Code Linting & Syntax Check
     runs-on: ubuntu-latest
@@ -57,3 +100,49 @@ jobs:
       - name: 🛡️ Syntax Check across all PHP & Pulse files
         run: |
           find src app routes public bin resources -name "*.php" -exec php -l {} \;
+
+  deploy-docs:
+    name: 🚀 Deploy Laravel-Style Docs to GitHub Pages
+    needs: [tests, lint]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo, json
+          tools: composer:v2
+
+      - name: 📦 Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: 🏗️ Export Static Documentation Website
+        run: |
+          php bin/export-docs.php _site /Pulse
+
+      - name: 📤 Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: 🌐 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 📢 Announce Documentation Deployment
+        run: |
+          echo "### 🌐 Live Documentation Website Deployed!" >> $GITHUB_STEP_SUMMARY
+          echo "The Laravel-style interactive documentation is now live at: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY

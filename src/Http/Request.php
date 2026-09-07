@@ -53,6 +53,43 @@ class Request
         );
     }
 
+    public static function create(
+        string $uri,
+        string $method = 'GET',
+        array $headers = [],
+        array $query = [],
+        array $post = [],
+        ?string $rawBody = null,
+        ?array $json = null
+    ): self {
+        $parsedUrl = parse_url($uri);
+        $path = $parsedUrl['path'] ?? '/';
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $urlQuery);
+            $query = array_merge($urlQuery, $query);
+        }
+
+        $normalizedHeaders = [];
+        foreach ($headers as $k => $v) {
+            $normalizedHeaders[strtolower($k)] = $v;
+        }
+
+        return new self(
+            method: strtoupper($method),
+            uri: $path,
+            headers: $normalizedHeaders,
+            query: $query,
+            post: $post,
+            files: [],
+            server: [
+                'REQUEST_METHOD' => strtoupper($method),
+                'REQUEST_URI' => $uri,
+            ],
+            rawBody: $rawBody,
+            json: $json
+        );
+    }
+
     public function isSpa(): bool
     {
         return ($this->headers['x-requested-mode'] ?? '') === 'spa' 

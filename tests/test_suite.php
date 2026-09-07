@@ -79,6 +79,25 @@ $test->it('creates database tables and enforces multi-tenant context', function 
     Pulse\Database\TenantContext::clear();
 });
 
+// 6. Laravel-style Documentation Route & HTML Page Rendering
+$test->it('loads and renders Laravel-style documentation HTML page with HTTP 200', function () {
+    $kernel = new Pulse\Pulse(dirname(__DIR__));
+    require_once dirname(__DIR__) . '/routes/web.php';
+
+    $request = Pulse\Http\Request::create('/docs');
+    $response = $kernel->handle($request);
+
+    if ($response->statusCode !== 200) {
+        throw new \Exception('Expected HTTP 200, got ' . $response->statusCode);
+    }
+    if (!str_contains($response->content, 'Documentation') || !str_contains($response->content, 'Quick Start')) {
+        throw new \Exception('Response does not contain expected documentation content');
+    }
+    if (!str_contains($response->content, '<!DOCTYPE html>')) {
+        throw new \Exception('Response is not a valid HTML document');
+    }
+});
+
 echo "\n==========================================\n";
 echo "Tests Passed: \033[32m{$test->passed}\033[0m | Failed: \033[31m{$test->failed}\033[0m\n";
 echo "==========================================\n";
