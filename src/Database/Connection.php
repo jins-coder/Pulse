@@ -53,6 +53,11 @@ class Connection
         return $this->queryLog;
     }
 
+    public function table(string $table): QueryBuilder
+    {
+        return new QueryBuilder($this, $table);
+    }
+
     public function lastInsertId(): string|false
     {
         return $this->getPdo()->lastInsertId();

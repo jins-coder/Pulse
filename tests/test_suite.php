@@ -18,7 +18,7 @@ class TestRunner
             echo "  \033[32m✔\033[0m {$description}\n";
             $this->passed++;
         } catch (\Throwable $e) {
-            echo "  \033[31m✖\033[0m {$description}: {$e->getMessage()}\n";
+            echo "  \033[31m✖\033[0m {$description}: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}\n";
             $this->failed++;
         }
     }
