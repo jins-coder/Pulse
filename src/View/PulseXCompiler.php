@@ -104,7 +104,11 @@ class PulseXCompiler
                 $props['slot'] = "'" . addslashes(trim($slotContent)) . "'";
             }
 
-            $propsPhp = '[' . implode(', ', array_map(fn($k, $v) => "'" . $k . "' => " . $v, array_keys($props), $props)) . ']';
+            $propPairs = [];
+            foreach ($props as $k => $v) {
+                $propPairs[] = "'" . $k . "' => " . $v;
+            }
+            $propsPhp = '[' . implode(', ', $propPairs) . ']';
             return '<?= component(\\App\\Components\\' . $componentName . '::class, ' . $propsPhp . ') ?>';
         }, $html);
 
