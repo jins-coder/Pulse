@@ -69,7 +69,7 @@ class PulseXCompiler
             if (str_starts_with($expr, '"') || str_starts_with($expr, "'")) {
                 return $matches[0];
             }
-            return "<?= e({$expr}) ?>";
+            return '<?= e(' . $expr . ') ?>';
         }, $html);
 
         // 3. Convert <if condition="..."> ... </if>
@@ -93,8 +93,8 @@ class PulseXCompiler
                 $props['slot'] = "'" . addslashes(trim($slotContent)) . "'";
             }
 
-            $propsPhp = '[' . implode(', ', array_map(fn($k, $v) => "'{$k}' => {$v}", array_keys($props), $props)) . ']';
-            return "<?= component(\\App\\Components\\{$componentName}::class, {$propsPhp}) ?>";
+            $propsPhp = '[' . implode(', ', array_map(fn($k, $v) => "'" . $k . "' => " . $v, array_keys($props), $props)) . ']';
+            return '<?= component(\\App\\Components\\' . $componentName . '::class, ' . $propsPhp . ') ?>';
         }, $html);
 
         return $html;
