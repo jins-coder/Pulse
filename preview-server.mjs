@@ -537,27 +537,36 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0b0714;
-            --bg-secondary: #150d24;
-            --bg-card: rgba(26, 16, 44, 0.72);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(244, 63, 94, 0.45);
-            --text-main: #fdf4ff;
-            --text-muted: #c4b5fd;
-            --accent-rose: #f43f5e;
-            --accent-violet: #a855f7;
-            --accent-purple: #c084fc;
-            --accent-cyan: #38bdf8;
-            --accent-indigo: #818cf8;
-            --gradient-accent: linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #6366f1 100%);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            /* Laravel-Inspired 2-Color Light Palette */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            
+            /* Two Core Brand Colors: Laravel Coral Red + Deep Obsidian Slate */
+            --accent-red: #ff2d20;
+            --accent-red-hover: #e02417;
+            --accent-red-light: #fef2f2;
+            --accent-slate: #0f172a;
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -566,56 +575,57 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             background-color: var(--bg-primary);
             color: var(--text-main);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 60%);
-            background-attachment: fixed;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
+
+        /* Top Clean Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.1rem 2.5rem;
-            background: rgba(21, 13, 36, 0.82);
-            backdrop-filter: blur(18px);
+            padding: 0.9rem 2rem;
+            background: #ffffff;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 50;
+            box-shadow: var(--shadow-sm);
         }
+
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.65rem;
             text-decoration: none;
             color: var(--text-main);
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             letter-spacing: -0.02em;
         }
+
         .brand-icon {
-            width: 34px;
-            height: 34px;
-            background: var(--gradient-accent);
-            border-radius: 9px;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-red);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            box-shadow: 0 0 18px rgba(244, 63, 94, 0.6);
         }
+
         .brand-badge {
-            background: rgba(244, 63, 94, 0.15);
-            border: 1px solid rgba(244, 63, 94, 0.4);
-            color: #fb7185;
+            background: var(--accent-red-light);
+            border: 1px solid #fee2e2;
+            color: var(--accent-red);
             padding: 0.15rem 0.5rem;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
         }
+
         .nav-links { display: flex; gap: 1.25rem; align-items: center; }
         .nav-link {
             display: inline-flex;
@@ -624,88 +634,151 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.92rem;
-            transition: color 0.2s ease;
+            font-size: 0.9rem;
+            transition: color 0.15s ease;
+            padding: 0.35rem 0.6rem;
+            border-radius: var(--radius-sm);
         }
-        .nav-link:hover, .nav-link.active { color: #f43f5e; }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-red);
+            background: var(--accent-red-light);
+        }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
-        .hero { text-align: center; padding: 3rem 1rem 2rem; max-width: 850px; margin: 0 auto; }
+        
+        /* Hero Header */
+        .hero { text-align: center; padding: 3rem 1rem 2rem; max-width: 820px; margin: 0 auto; }
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.35);
+            padding: 0.35rem 0.9rem;
+            background: var(--accent-red-light);
+            border: 1px solid #fecaca;
             border-radius: 9999px;
-            color: #fb7185;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
+            color: var(--accent-red);
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
         }
+
         .hero h1 {
             font-size: 3rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 1.25rem;
+            line-height: 1.18;
+            margin-bottom: 1rem;
+            color: var(--text-main);
         }
-        .hero h1 span {
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+
+        .hero h1 span { color: var(--accent-red); }
         .hero p {
-            font-size: 1.15rem;
+            font-size: 1.125rem;
             color: var(--text-muted);
-            line-height: 1.7;
-            max-width: 700px;
-            margin: 0 auto;
+            line-height: 1.65;
         }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.75rem; margin-top: 3rem; }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+        
+        /* Clean White Cards */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 1.75rem;
-            backdrop-filter: blur(12px);
-            transition: border-color 0.2s ease, transform 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
-        .card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-        .card-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem; }
-        .card-title-icon { width: 30px; height: 30px; border-radius: 7px; background: rgba(244, 63, 94, 0.16); color: #fb7185; display: flex; align-items: center; justify-content: center; }
-        .badge { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 9999px; font-weight: 700; background: rgba(255, 255, 255, 0.08); color: #fb7185; display: inline-flex; align-items: center; gap: 0.3rem; }
+        .card-title { font-weight: 700; font-size: 1.05rem; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem; }
+        .card-title-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent-red-light);
+            color: var(--accent-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: 1px solid var(--border);
+        }
+
+        /* Clean Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.65rem 1.25rem;
-            font-size: 0.95rem;
-            font-weight: 700;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
             border-radius: var(--radius-md);
             border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             text-decoration: none;
             font-family: inherit;
         }
-        .btn-primary { background: var(--gradient-accent); color: #ffffff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4); }
-        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 6px 22px rgba(244, 63, 94, 0.6); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.25); }
+
+        .btn-primary {
+            background: var(--accent-red);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(255, 45, 32, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-red-hover);
+            box-shadow: 0 4px 12px rgba(255, 45, 32, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: var(--border-hover);
+        }
+
         .input-text {
             width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            background: rgba(21, 13, 36, 0.85);
+            padding: 0.65rem 1rem;
+            background: #ffffff;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             color: var(--text-main);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-family: inherit;
             outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
+
+        .input-text:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.15);
+        }
+
         .icon { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
     </style>
 </head>
@@ -723,29 +796,33 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
                 <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 22"></polyline></svg>
                 <span>Home</span>
             </a>
-            <a href="/wasm" class="nav-link" style="color: #38bdf8;">
-                <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                <span>WASM PHP</span>
+            <a href="/docs" class="nav-link" style="color: var(--accent-red); font-weight: 700;">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                <span>Docs</span>
             </a>
-            <a href="/aot" class="nav-link" style="color: #a855f7;">
+            <a href="/beast" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Beast Core</span>
+            </a>
+            <a href="/wasm" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>WASM</span>
+            </a>
+            <a href="/aot" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
                 <span>AOT & Micro-VM</span>
             </a>
-            <a href="/agents" class="nav-link" style="color: #c084fc;">
+            <a href="/agents" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path></svg>
                 <span>AI Agents</span>
             </a>
-            <a href="/upgrade" class="nav-link" style="color: #38bdf8; font-weight: 700;">
+            <a href="/upgrade" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <span>Upgrade</span>
             </a>
-            <a href="/_pulse/studio" class="nav-link" style="color: #fb7185;">
+            <a href="/_pulse/studio" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 <span>Studio</span>
-            </a>
-            <a href="/api/info" target="_blank" class="nav-link">
-                <svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                <span>API JSON</span>
             </a>
         </div>
     </nav>
@@ -754,28 +831,16 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
         ${content}
     </main>
 
-    <!-- Pulse Performance Profiler Bar -->
-    <div id="pulse-profiler" style="position:fixed;bottom:0;left:0;right:0;background:rgba(21,13,36,0.92);backdrop-filter:blur(10px);border-top:1px solid rgba(244,63,94,0.3);color:#fdf4ff;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 16px;display:flex;gap:22px;align-items:center;z-index:99999;box-shadow:0 -4px 20px rgba(0,0,0,0.6);">
-        <div style="font-weight:bold;color:#fb7185;display:flex;align-items:center;gap:6px;">
+    <!-- Pulse Performance Profiler Bar (Clean Light Theme) -->
+    <div id="pulse-profiler" style="position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid #e2e8f0;color:#0f172a;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 16px;display:flex;gap:22px;align-items:center;z-index:99999;box-shadow:0 -2px 10px rgba(0,0,0,0.05);">
+        <div style="font-weight:bold;color:var(--accent-red);display:flex;align-items:center;gap:6px;">
             <svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>PULSE v4.0.0 (Infinity)</span>
+            <span>PULSE v4.0.0</span>
         </div>
-        <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#4ade80;fill:none;stroke-width:2;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Time: <strong style="color:#4ade80;">0.12 ms (AOT)</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#38bdf8;fill:none;stroke-width:2;" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon></svg>
-            <span>WASM: <strong style="color:#38bdf8;">0.08ms JIT</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#c084fc;fill:none;stroke-width:2;" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect></svg>
-            <span>Micro-VM: <strong style="color:#c084fc;">0.38ms boot</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:5px;">
-            <svg style="width:13px;height:13px;stroke:#fbbf24;fill:none;stroke-width:2;" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse></svg>
-            <span>Reactor: <strong style="color:#fbbf24;">58,500 req/s</strong></span>
-        </div>
+        <div>Engine: <span style="color:var(--accent-red);font-weight:600;">Laravel Light UI • Persistent Fiber Reactor</span></div>
+        <div>Memory: <span style="color:#0f172a;font-weight:600;">3.8 MB</span></div>
+        <div>Boot: <span style="color:#16a34a;font-weight:600;">0.12 ms</span></div>
+        <div style="margin-left:auto;color:#64748b;">Tri-Mode: <strong style="color:var(--accent-red);">SSR ↔ SPA ↔ JSON</strong></div>
     </div>
 
     <script src="/pulse.js"></script>
@@ -784,6 +849,7 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
 }
 
 function getHomeContent() {
+
     return `
     <div class="container">
         <div class="hero">

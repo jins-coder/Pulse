@@ -1,18 +1,18 @@
 <?php $this->extends('layout'); ?>
 
 <div class="docs-portal-container" style="max-width: 1440px; margin: 0 auto; padding: 1.5rem 1rem 5rem;">
-    <!-- Top Doc Search & Version Header -->
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem; margin-bottom: 2rem; background: rgba(18, 11, 32, 0.85); border: 1px solid var(--border); padding: 1rem 1.75rem; border-radius: var(--radius-lg); backdrop-filter: blur(20px);">
+    <!-- Top Doc Search & Version Header (Laravel Light Style) -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem; margin-bottom: 2rem; background: #ffffff; border: 1px solid var(--border); padding: 1rem 1.75rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f43f5e, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);">
-                <svg class="icon" style="width: 22px; height: 22px; stroke: #fff;" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <div style="width: 38px; height: 38px; background: var(--accent-red); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff;">
+                <svg class="icon" style="width: 20px; height: 20px; stroke: #fff;" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
             <div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                     <span>Pulse Documentation</span>
-                    <span style="font-size: 0.72rem; padding: 0.15rem 0.5rem; background: rgba(244, 63, 94, 0.2); border: 1px solid rgba(244, 63, 94, 0.5); color: #fb7185; border-radius: 6px; font-family: 'JetBrains Mono'; font-weight: 700;">4.x (Infinity)</span>
+                    <span style="font-size: 0.72rem; padding: 0.15rem 0.5rem; background: var(--accent-red-light); border: 1px solid #fee2e2; color: var(--accent-red); border-radius: 6px; font-family: 'JetBrains Mono'; font-weight: 700;">4.x (Infinity)</span>
                 </div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">The Definitive Guide to Full-Stack PHP, Rust Acceleration & Reactive Components</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">The Definitive Guide to Full-Stack PHP, Rust Acceleration & Reactive Components</div>
             </div>
         </div>
 
@@ -20,11 +20,11 @@
             <!-- Live Search Bar -->
             <div style="position: relative; width: 100%; max-width: 320px;">
                 <svg class="icon" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="docSearchInput" placeholder="Search docs (Ctrl+K)..." oninput="filterDocTopics(this.value)" style="width: 100%; padding: 0.55rem 1rem 0.55rem 2.4rem; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#f43f5e'" onblur="this.style.borderColor='var(--border)'">
+                <input type="text" id="docSearchInput" placeholder="Search docs (Ctrl+K)..." oninput="filterDocTopics(this.value)" style="width: 100%; padding: 0.55rem 1rem 0.55rem 2.4rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.85rem; outline: none; transition: all 0.15s ease;" onfocus="this.style.borderColor='var(--accent-red)'; this.style.background='#ffffff'" onblur="this.style.borderColor='var(--border)'; this.style.background='#f8fafc'">
             </div>
 
             <!-- Version Switcher -->
-            <select style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border); border-radius: 8px; color: #fdf4ff; padding: 0.55rem 0.9rem; font-size: 0.82rem; font-family: 'JetBrains Mono'; outline: none; cursor: pointer;">
+            <select style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); padding: 0.55rem 0.9rem; font-size: 0.82rem; font-family: 'JetBrains Mono'; outline: none; cursor: pointer;">
                 <option value="v4">v4.0 (Infinity)</option>
                 <option value="v3">v3.0 (Horizon)</option>
                 <option value="v2">v2.0 (Quantum)</option>
@@ -36,12 +36,12 @@
     <div style="display: grid; grid-template-columns: 260px 1fr 220px; gap: 2.25rem; align-items: start;">
         
         <!-- 1. LEFT SIDEBAR: Nav Tree -->
-        <aside style="position: sticky; top: 90px; background: rgba(18, 11, 32, 0.75); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; backdrop-filter: blur(16px); max-height: calc(100vh - 120px); overflow-y: auto;">
+        <aside style="position: sticky; top: 80px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; box-shadow: var(--shadow-sm); max-height: calc(100vh - 110px); overflow-y: auto;">
             <div id="docNavTree" style="display: flex; flex-direction: column; gap: 1.25rem;">
                 
                 <!-- Category 1: Prologue -->
                 <div>
-                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #fb7185; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-red); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                         <span>Prologue & Basics</span>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.2rem;">
@@ -54,7 +54,7 @@
 
                 <!-- Category 2: Beast Core & Hardware -->
                 <div>
-                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #fbbf24; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-slate); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                         <span>⚡ Beast Core Acceleration</span>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.2rem;">
@@ -67,7 +67,7 @@
 
                 <!-- Category 3: Edge & Serverless Runtimes -->
                 <div>
-                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #38bdf8; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-red); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                         <span>🌐 Runtimes & Serverless</span>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.2rem;">
@@ -80,7 +80,7 @@
 
                 <!-- Category 4: Full-Stack & AI Systems -->
                 <div>
-                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #c084fc; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-slate); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                         <span>🤖 Full-Stack & AI Mesh</span>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.2rem;">
@@ -94,7 +94,7 @@
 
                 <!-- Category 5: DevOps & Tooling -->
                 <div>
-                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #4ade80; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-red); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                         <span>🛠️ Tooling & CI/CD</span>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.2rem;">
@@ -109,26 +109,26 @@
         </aside>
 
         <!-- 2. CENTER: Main Interactive Article -->
-        <main style="min-width: 0;">
+        <main style="min-width: 0; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-sm);">
 
             <!-- Hero Intro -->
-            <section id="introduction" style="margin-bottom: 3.5rem;">
-                <div class="hero-badge" style="background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.35); color: #fb7185; margin-bottom: 1rem;">
+            <section id="introduction" style="margin-bottom: 3rem;">
+                <div class="hero-badge" style="margin-bottom: 1rem;">
                     <span>Official Pulse Documentation • v4.0.0 (Infinity)</span>
                 </div>
-                <h1 style="font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.25rem; color: #fff;">
-                    Building Reactive Web Applications with <span style="background: linear-gradient(135deg, #f43f5e, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                <h1 style="font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 1rem; color: var(--text-main);">
+                    Building Reactive Web Applications with <span style="color: var(--accent-red);">Pulse</span>
                 </h1>
-                <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
                     Pulse is an advanced, full-stack PHP application framework engineered with native Rust C-ABI hardware acceleration, an in-browser WebAssembly engine, sub-millisecond serverless Micro-VMs, single-file PulseX components, and autonomous AI swarms.
                 </p>
 
                 <!-- Laravel-Style Alert Box -->
-                <div style="background: rgba(56, 189, 248, 0.08); border-left: 4px solid #38bdf8; border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin-bottom: 2rem;">
-                    <div style="font-weight: 700; color: #38bdf8; font-size: 0.9rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <span>💡 Key Takeaway</span>
+                <div style="background: var(--accent-red-light); border-left: 4px solid var(--accent-red); border-radius: 0 8px 8px 0; padding: 1.25rem 1.5rem; margin-bottom: 2rem;">
+                    <div style="font-weight: 700; color: var(--accent-red); font-size: 0.9rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>💡 Key Architecture Concept</span>
                     </div>
-                    <div style="font-size: 0.9rem; color: #e0f2fe; line-height: 1.6;">
+                    <div style="font-size: 0.9rem; color: #7f1d1d; line-height: 1.6;">
                         Pulse unifies backend PHP, frontend DOM reactivity, and compiled native Rust into a single cohesive development experience without requiring heavy JavaScript build pipelines or NodeJS dependencies.
                     </div>
                 </div>
@@ -136,7 +136,7 @@
 
             <!-- Section 1: Quickstart -->
             <section id="quickstart" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
                     <span>🚀 30-Second Quick Start</span>
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -166,10 +166,10 @@ node preview-server.mjs</code></pre>
 
             <!-- Section 2: Beast Core & Rust FFI -->
             <section id="rust-ffi" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <div style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.75rem; font-family: 'JetBrains Mono';">
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: var(--accent-red-light); color: var(--accent-red); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.75rem; font-family: 'JetBrains Mono';">
                     <span>⚡ BEAST CORE ENGINE</span>
                 </div>
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🦀 Native Rust C-ABI FFI Bridge
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -198,7 +198,7 @@ $total = native()->fastSum([100, 200, 300, 400, 500]); // 1500</code></pre>
 
             <!-- Section 3: Embedded LSM Storage -->
             <section id="embedded-kv" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     ⚡ Embedded In-Memory LSM Store
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -224,7 +224,7 @@ $results = storage()->queryTable('telemetry_events', fn($row) => $row['cpu'] > 1
 
             <!-- Section 4: FastArr & PHP 8.4 Polyfills -->
             <section id="fastarr" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🔄 FastArr Zero-Allocation Collection Engine
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -254,10 +254,10 @@ $allActive = array_all($users, fn($u) => $u['status'] === 'ACTIVE');</code></pre
 
             <!-- Section 5: In-Browser WASM PHP -->
             <section id="wasm-engine" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <div style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.75rem; font-family: 'JetBrains Mono';">
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: var(--accent-red-light); color: var(--accent-red); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.75rem; font-family: 'JetBrains Mono';">
                     <span>🌐 CLIENT WEBASSEMBLY</span>
                 </div>
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🧩 In-Browser WASM PHP 8.4 Runtime
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -283,7 +283,7 @@ $store->reconcile([
 
             <!-- Section 6: PulseX Components -->
             <section id="pulsex-components" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🧬 PulseX Single-File Components (`.pulse`)
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -333,7 +333,7 @@ return {
 
             <!-- Section 7: Multi-Agent Mesh -->
             <section id="ai-mesh" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🤖 Autonomous Multi-Agent Mesh (`AgentMesh`)
                 </h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem;">
@@ -367,73 +367,68 @@ $results = agents()->runSwarm([
 
             <!-- Section 8: Global Helpers Reference Table -->
             <section id="helpers-reference" style="margin-bottom: 3.5rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
                     🛠️ Global Helpers Reference Matrix
                 </h2>
-                <div style="overflow-x: auto; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem;">
+                <div style="overflow-x: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; margin-top: 1rem; box-shadow: var(--shadow-sm);">
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
                         <thead>
-                            <tr style="border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.04);">
-                                <th style="padding: 0.75rem 1rem; color: #fb7185; font-family: 'JetBrains Mono';">Helper</th>
-                                <th style="padding: 0.75rem 1rem; color: #fff;">Return Type</th>
-                                <th style="padding: 0.75rem 1rem; color: #cbd5e1;">Description</th>
+                            <tr style="border-bottom: 1px solid var(--border); background: #f8fafc;">
+                                <th style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono'; font-weight: 700;">Helper</th>
+                                <th style="padding: 0.75rem 1rem; color: var(--text-main); font-weight: 700;">Return Type</th>
+                                <th style="padding: 0.75rem 1rem; color: var(--text-muted); font-weight: 600;">Description</th>
                             </tr>
                         </thead>
-                        <tbody style="font-family: 'JetBrains Mono'; color: #fdf4ff;">
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">native()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">NativeCore</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Rust C-ABI accelerator & SIMD bridge</td>
+                        <tbody style="color: var(--text-main);">
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">native()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">NativeCore</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">Rust C-ABI accelerator & SIMD bridge</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">storage()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">EmbeddedStorage</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">&lt;0.8µs in-memory LSM KV store</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">storage()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">EmbeddedStorage</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">&lt;0.8µs in-memory LSM KV store</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">simd()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">SimdEngine</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">FlatPack zero-copy binary serializer & JSON validator</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">simd()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">SimdEngine</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">FlatPack zero-copy binary serializer & JSON validator</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">vectors()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">VectorEngine</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">In-process AI vector embeddings & nearest search</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">vectors()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">VectorEngine</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">In-process AI vector embeddings & nearest search</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">worker()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">WorkerEngine</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Persistent worker loop & lock-free ring buffer</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">worker()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">WorkerEngine</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">Persistent worker loop & lock-free ring buffer</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">fast_arr($items)</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">FastArr</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Fluent zero-allocation collection pipelines</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">fast_arr($items)</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">FastArr</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">Fluent zero-allocation collection pipelines</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">wasm()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">WasmRuntime</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">In-browser WebAssembly manifest & vector clock sync</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">wasm()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">WasmRuntime</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">In-browser WebAssembly manifest & vector clock sync</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">microvm()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">MicroVMKernel</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Sub-0.4ms serverless micro-VM container manager</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">microvm()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">MicroVMKernel</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">Sub-0.4ms serverless micro-VM container manager</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">aot()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">AotCompiler</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Ahead-of-Time static opcode compilation cache</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">tracer()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">Tracer</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">OpenTelemetry W3C distributed tracing spans</td>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">aot()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">AotCompiler</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">Ahead-of-Time static opcode compilation cache</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.75rem 1rem; color: #fb7185;">queue()</td>
-                                <td style="padding: 0.75rem 1rem; color: #c084fc;">SelfHealingQueue</td>
-                                <td style="padding: 0.75rem 1rem; font-family: inherit; color: var(--text-muted);">Autonomous DLQ & self-healing retry remediation</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--accent-red); font-family: 'JetBrains Mono';">tracer()</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-main); font-family: 'JetBrains Mono';">Tracer</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--text-muted);">OpenTelemetry W3C distributed tracing spans</td>
                             </tr>
                         </tbody>
                     </table>
@@ -443,8 +438,8 @@ $results = agents()->runSwarm([
         </main>
 
         <!-- 3. RIGHT SIDEBAR: "On This Page" Table of Contents -->
-        <aside style="position: sticky; top: 90px; background: rgba(18, 11, 32, 0.5); border-left: 1px solid var(--border); padding: 0.75rem 1rem; backdrop-filter: blur(12px); font-size: 0.82rem;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 0.75rem; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">
+        <aside style="position: sticky; top: 80px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1rem; box-shadow: var(--shadow-sm); font-size: 0.82rem;">
+            <div style="font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;">
                 On This Page
             </div>
             <nav style="display: flex; flex-direction: column; gap: 0.4rem; color: var(--text-muted);">
@@ -460,7 +455,7 @@ $results = agents()->runSwarm([
             </nav>
 
             <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-                <a href="https://github.com/jins-coder/Pulse" target="_blank" style="display: flex; align-items: center; gap: 0.4rem; color: #fb7185; text-decoration: none; font-weight: 600;">
+                <a href="https://github.com/jins-coder/Pulse" target="_blank" style="display: flex; align-items: center; gap: 0.4rem; color: var(--accent-red); text-decoration: none; font-weight: 600;">
                     <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     <span>Edit on GitHub</span>
                 </a>
@@ -481,13 +476,12 @@ $results = agents()->runSwarm([
     transition: all 0.15s ease;
 }
 .doc-sidebar-link:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-    transform: translateX(3px);
+    color: var(--text-main);
+    background: #f1f5f9;
 }
 .doc-sidebar-link.active {
-    color: #fb7185;
-    background: rgba(244, 63, 94, 0.12);
+    color: var(--accent-red);
+    background: var(--accent-red-light);
     font-weight: 700;
 }
 
@@ -498,41 +492,41 @@ $results = agents()->runSwarm([
     padding-left: 0.25rem;
 }
 .doc-toc-link:hover {
-    color: #fb7185;
+    color: var(--accent-red);
 }
 
 .doc-code-block {
-    background: rgba(10, 6, 18, 0.85);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
     overflow: hidden;
     margin-bottom: 1.5rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-sm);
 }
 .doc-code-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid var(--border);
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: #94a3b8;
 }
 .doc-copy-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 4px;
-    color: var(--text-main);
+    color: #ffffff;
     padding: 0.2rem 0.55rem;
     font-size: 0.72rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
 }
 .doc-copy-btn:hover {
-    background: #f43f5e;
-    color: #fff;
+    background: var(--accent-red);
+    border-color: var(--accent-red);
 }
 .doc-code-block pre {
     padding: 1.25rem;
@@ -541,7 +535,7 @@ $results = agents()->runSwarm([
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.86rem;
     line-height: 1.6;
-    color: #fdf4ff;
+    color: #f8fafc;
 }
 
 @media (max-width: 1024px) {
