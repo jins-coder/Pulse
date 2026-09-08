@@ -24,9 +24,9 @@ SSR↔SPA Sync     Pulse Studio     Edge Mesh       Micro-VMs       Zero-Latency
 | Generation | Codename | Status | Focus / Key Themes | Target Release |
 |---|---|---|---|---|
 | **Pulse v1.x** | **Helios** | `Completed` | Core Framework Foundations, Tri-Mode Routing (SSR ↔ SPA ↔ API), Reactive PHP Components, HMAC State Hydration, Fiber Async, Migrations & Multi-Tenancy | Q1 2026 |
-| **Pulse v2.x** | **Quantum** | `Active / Live` | Persistent Fiber Reactor Server (50k+ req/s), Pulse Studio Cockpit & Time-Travel Debugger, PulseX Single-File Template Engine (`.pulse`), AI Tool-Calling Agents (`#[AiTool]`) | Q3 2026 |
-| **Pulse v3.0** | **Horizon** | `Planned` | Autonomous Multi-Agent Workflows, Distributed Cloud Edge State Sync, Self-Healing Queues, Automatic OpenTelemetry Tracing | Q1 2027 |
-| **Pulse v4.0** | **Infinity** | `Research` | Client-Side WebAssembly (WASM) PHP Engine, Ahead-of-Time (AOT) Bytecode Compilation, Sub-Millisecond Micro-VM Serverless Instances | Q4 2027 |
+| **Pulse v2.x** | **Quantum** | `Completed` | Persistent Fiber Reactor Server (50k+ req/s), Pulse Studio Cockpit & Time-Travel Debugger, PulseX Single-File Template Engine (`.pulse`), AI Tool-Calling Agents (`#[AiTool]`) | Q3 2026 |
+| **Pulse v3.0** | **Horizon** | `Completed` | Autonomous Multi-Agent Mesh, Distributed Cloud Edge CRDT State Sync, Self-Healing Queues, Native OpenTelemetry Tracing | Q4 2026 |
+| **Pulse v4.0** | **Infinity** | `Active / Live` | Client-Side WebAssembly (WASM) PHP Engine, Ahead-of-Time (AOT) Bytecode Compilation, Sub-Millisecond Micro-VM Serverless Instances | Q1 2027 |
 | **Pulse v5.0** | **Singularity** | `Vision` | Omnipresent Global Mesh with Zero-Latency State Replication, Natural Language Dynamic UI & Schema Synthesis | 2028+ |
 
 ---

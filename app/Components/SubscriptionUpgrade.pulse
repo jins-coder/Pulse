@@ -1,0 +1,126 @@
+<php>
+namespace App\Components;
+
+use Pulse\Component\Component;
+use App\Models\Subscription;
+
+class SubscriptionUpgrade extends Component
+{
+    public string $currentTier = Subscription::TIER_STARTER;
+    public string $selectedTier = Subscription::TIER_PRO;
+    public string $billingPeriod = 'annual'; // 'monthly' or 'annual'
+    public int $seats = 5;
+    public ?string $successMessage = null;
+    public array $usage = [
+        'agent_runs' => 42,
+        'queue_jobs' => 4120,
+        'fiber_reqs' => 840,
+    ];
+
+    public function mount(string $tier = Subscription::TIER_STARTER): void
+    {
+        $this->currentTier = $tier;
+        $this->selectedTier = ($tier === Subscription::TIER_STARTER) ? Subscription::TIER_PRO : $tier;
+    }
+
+    public function setPeriod(string $period): void
+    {
+        $this->billingPeriod = in_array($period, ['monthly', 'annual']) ? $period : 'annual';
+    }
+
+    public function selectTier(string $tier): void
+    {
+        $tiers = Subscription::getTiers();
+        if (isset($tiers[$tier])) {
+            $this->selectedTier = $tier;
+        }
+    }
+
+    public function upgradePlan(): void
+    {
+        $tiers = Subscription::getTiers();
+        if (!isset($tiers[$this->selectedTier])) {
+            return;
+        }
+
+        $this->currentTier = $this->selectedTier;
+        $tierName = $tiers[$this->currentTier]['name'];
+        $this->successMessage = "Successfully upgraded to {$tierName} plan on {$this->billingPeriod} billing!";
+        $this->toast("🎉 Upgraded to {$tierName} plan! Features unlocked.", 'success');
+    }
+
+    public function render(): string
+    {
+        $tiers = Subscription::getTiers();
+        return view('components.subscription-upgrade', [
+            'currentTier' => $this->currentTier,
+            'selectedTier' => $this->selectedTier,
+            'billingPeriod' => $this->billingPeriod,
+            'seats' => $this->seats,
+            'tiers' => $tiers,
+            'usage' => $this->usage,
+            'successMessage' => $this->successMessage,
+        ]);
+    }
+}
+</php>
+
+<div class="subscription-upgrade-widget">
+    <!-- Header & Billing Switcher -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <div>
+            <div style="font-size: 0.85rem; text-transform: uppercase; color: var(--accent-cyan); font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.25rem;">
+                Multi-Tenant Account Management
+            </div>
+            <h2 style="font-size: 1.75rem; font-weight: 800; color: #fff; margin: 0;">
+                Subscription & Quotas
+            </h2>
+        </div>
+
+        <!-- Frequency Toggle -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); padding: 4px; border-radius: 9999px;">
+            <button action="setPeriod('monthly')" class="btn { $billingPeriod === 'monthly' ? 'btn-primary' : 'btn-secondary' }" style="border-radius: 9999px; padding: 0.35rem 1rem; font-size: 0.85rem;">
+                Monthly
+            </button>
+            <button action="setPeriod('annual')" class="btn { $billingPeriod === 'annual' ? 'btn-primary' : 'btn-secondary' }" style="border-radius: 9999px; padding: 0.35rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Annual</span>
+                <span class="badge" style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); font-size: 0.7rem; padding: 1px 6px;">SAVE 20%</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Usage Metrics Bar -->
+    <div class="glass-card" style="padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">Active Tier</div>
+            <div style="font-size: 1.25rem; font-weight: 700; color: #38bdf8; text-transform: uppercase;">
+                { $currentTier }
+            </div>
+        </div>
+        <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+                <span>Autonomous Agent Runs</span>
+                <span style="font-family: 'JetBrains Mono'; font-weight: 600; color: #fff;">{ $usage['agent_runs'] } / 50</span>
+            </div>
+            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 84%; height: 100%; background: linear-gradient(90deg, #38bdf8, #f43f5e);"></div>
+            </div>
+        </div>
+        <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+                <span>Queue Operations</span>
+                <span style="font-family: 'JetBrains Mono'; font-weight: 600; color: #fff;">{ $usage['queue_jobs'] } / 5,000</span>
+            </div>
+            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                <div style="width: 82%; height: 100%; background: linear-gradient(90deg, #38bdf8, #818cf8);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Action Trigger -->
+    <div style="text-align: center; margin-top: 2rem;">
+        <button action="upgradePlan" class="btn btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1.1rem; border-radius: 10px; font-weight: 700; box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.4);">
+            ⚡ Confirm & Upgrade to { $selectedTier }
+        </button>
+    </div>
+</div>

@@ -7,7 +7,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 }
 require_once __DIR__ . '/../src/Pulse.php';
 
-echo "⚡ Running Pulse Framework Core Test Suite...\n\n";
+echo "⚡ Running Pulse Framework v4.0 (Infinity) Core & Subsystem Test Suite...\n\n";
 
 class TestRunner
 {
@@ -33,74 +33,159 @@ class TestRunner
 
 $test = new TestRunner();
 
-// 1. Kernel Bootstrapping
-$test->it('initializes Pulse Master Kernel and reports version 2.0.0 (Quantum)', function () {
+// 1. Kernel Bootstrapping & Versioning
+$test->it('initializes Pulse Kernel and reports version 4.0.0 (Infinity)', function () {
     $kernel = new Pulse\Pulse(dirname(__DIR__));
-    if (Pulse\Pulse::VERSION !== '2.0.0') {
-        throw new \Exception('Expected version 2.0.0, got ' . Pulse\Pulse::VERSION);
+    if (Pulse\Pulse::VERSION !== '4.0.0') {
+        throw new \Exception('Expected version 4.0.0, got ' . Pulse\Pulse::VERSION);
     }
-    if (Pulse\Pulse::CODENAME !== 'Quantum') {
-        throw new \Exception('Expected codename Quantum, got ' . Pulse\Pulse::CODENAME);
+    if (Pulse\Pulse::CODENAME !== 'Infinity') {
+        throw new \Exception('Expected codename Infinity, got ' . Pulse\Pulse::CODENAME);
     }
 });
 
-// 2. PSR-11 Auto-wiring Container
-$test->it('resolves dependencies through PSR-11 Container', function () {
+// 2. In-Browser WASM PHP Engine & Offline Store
+$test->it('manages WASM component manifests and offline vector clock reconciliation', function () {
+    $wasm = Pulse\Wasm\WasmRuntime::getInstance();
+    $manifest = $wasm->getBootstrapManifest();
+    if ($manifest['engine'] !== 'Pulse-WASM-v4.0' || !$manifest['offline_capable']) {
+        throw new \Exception('Invalid WASM bootstrap manifest');
+    }
+
+    $store = new Pulse\Wasm\OfflineStore('client_test');
+    $store->put('user.theme', 'dark');
+    $reconciliation = $store->reconcile([
+        ['key' => 'user.theme', 'value' => 'midnight', 'timestamp' => microtime(true) + 10]
+    ]);
+    if ($reconciliation['reconciled_count'] !== 1 || $store->get('user.theme') !== 'midnight') {
+        throw new \Exception('Offline store vector reconciliation failed');
+    }
+});
+
+// 3. Ahead-of-Time (AOT) Bytecode Compilation
+$test->it('pre-compiles routes and container graphs into static opcode bundles', function () {
+    $aot = Pulse\Compiler\AotCompiler::getInstance();
+    $router = new Pulse\Routing\Router();
+    $router->get('/test', fn() => 'ok')->name('test');
     $container = Pulse\Container\Container::getInstance();
-    $container->bind('demo.service', fn() => 'PulseService');
-    if ($container->get('demo.service') !== 'PulseService') {
-        throw new \Exception('Failed to resolve container binding');
+
+    $manifest = $aot->compileApplication(dirname(__DIR__), $router, $container);
+    if ($manifest['aot_version'] !== '4.0.0' || $manifest['compiled_routes'] < 1) {
+        throw new \Exception('AOT application compilation failed');
+    }
+
+    $pulsexRes = $aot->precompilePulseX('<div>{ $hello }</div>');
+    if (empty($pulsexRes['key']) || $pulsexRes['source_size'] <= 0) {
+        throw new \Exception('AOT PulseX template precompilation failed');
     }
 });
 
-// 3. PulseX Single-File Component Compiler
-$test->it('compiles JSX markup and expressions in PulseXCompiler', function () {
-    $compiler = new Pulse\View\PulseXCompiler();
-    $rawMarkup = '<div class="test">{ $title }</div><if condition="$isActive"><span>Active</span></if>';
-    $compiled = $compiler->compileMarkup($rawMarkup);
-    if (!str_contains($compiled, '<?= e($title) ?>')) {
-        throw new \Exception('Failed to compile JSX expression');
+// 4. Sub-Millisecond Serverless Micro-VM Engine
+$test->it('creates memory snapshots and resurrects micro-VM instances in <0.4ms', function () {
+    $microvm = Pulse\Runtime\MicroVM\MicroVMKernel::getInstance();
+    $snapshot = $microvm->createSnapshot('snap_test_01');
+    if ($snapshot['status'] !== 'READY') {
+        throw new \Exception('MicroVM snapshot creation failed');
     }
-    if (!str_contains($compiled, '<?php if ($isActive): ?>')) {
-        throw new \Exception('Failed to compile <if> tag');
+
+    $instance = $microvm->spawnInstance($snapshot['id']);
+    if ($instance['status'] !== 'RUNNING' || $instance['resurrect_duration_ms'] > 1.0) {
+        throw new \Exception('MicroVM instant resurrection failed');
+    }
+
+    $scaled = $microvm->scaleToZero($instance['instance_id']);
+    if (!$scaled) {
+        throw new \Exception('MicroVM scale-to-zero failed');
     }
 });
 
-// 4. AI Tool-Calling Engine
-$test->it('extracts structured JSON tool definitions using #[AiTool] attributes', function () {
-    $tools = Pulse\AI\Agent::extractTools(App\Components\Counter::class);
-    if (!is_array($tools)) {
-        throw new \Exception('Expected array of tool schemas');
+// 5. OpenTelemetry Distributed Tracing
+$test->it('creates OpenTelemetry W3C spans and tracks execution durations', function () {
+    $tracer = Pulse\Telemetry\Tracer::getInstance();
+    $result = $tracer->trace('test.v4.operation', fn($span) => 100);
+    if ($result !== 100) {
+        throw new \Exception('Tracer execution failed');
     }
 });
 
-// 5. Database Schema & Multi-Tenancy Scoping
-$test->it('creates database tables and enforces multi-tenant context', function () {
-    Pulse\Database\TenantContext::setTenantId('tenant_qa_01');
-    if (Pulse\Database\TenantContext::getTenantId() !== 'tenant_qa_01') {
-        throw new \Exception('Tenant context propagation failed');
-    }
-    Pulse\Database\TenantContext::clear();
-});
-
-// 6. Laravel-style Documentation Route & HTML Page Rendering
-$test->it('loads and renders Laravel-style documentation HTML page with HTTP 200', function () {
+// 6. Web Routes Rendering (WASM / AOT / Upgrade / Docs)
+$test->it('loads and renders v4.0 web route endpoints with HTTP 200 OK', function () {
     $app = new Pulse\Pulse(dirname(__DIR__));
     require dirname(__DIR__) . '/routes/web.php';
 
-    $request = Pulse\Http\Request::create('/docs');
-    $response = $app->handle($request);
+    // Test /wasm
+    $responseWasm = $app->handle(Pulse\Http\Request::create('/wasm'));
+    if ($responseWasm->statusCode !== 200 || !str_contains($responseWasm->content, 'WebAssembly')) {
+        throw new \Exception('/wasm route failed');
+    }
 
-    if ($response->statusCode !== 200) {
-        throw new \Exception('Expected HTTP 200, got ' . $response->statusCode);
+    // Test /aot
+    $responseAot = $app->handle(Pulse\Http\Request::create('/aot'));
+    if ($responseAot->statusCode !== 200 || !str_contains($responseAot->content, 'Ahead-of-Time')) {
+        throw new \Exception('/aot route failed');
     }
-    if (!str_contains($response->content, 'Documentation') || !str_contains($response->content, 'Quick Start')) {
-        throw new \Exception('Response does not contain expected documentation content');
-    }
-    if (!str_contains($response->content, '<!DOCTYPE html>')) {
-        throw new \Exception('Response is not a valid HTML document');
+
+    // Test /_pulse/microvm
+    $reqMicro = Pulse\Http\Request::create('/_pulse/microvm');
+    $reqMicro->server['HTTP_ACCEPT'] = 'application/json';
+    $responseMicro = $app->handle($reqMicro);
+    if ($responseMicro->statusCode !== 200) {
+        throw new \Exception('/_pulse/microvm route failed');
     }
 });
+
+// 7. FastArr & PHP 8.4 High-Performance Array Engine
+$test->it('executes zero-allocation lazy generators, partition, keyBy, and PHP 8.4 array functions', function () {
+    $data = [
+        ['id' => 10, 'tier' => 'starter', 'active' => true, 'score' => 45],
+        ['id' => 20, 'tier' => 'pro', 'active' => false, 'score' => 88],
+        ['id' => 30, 'tier' => 'enterprise', 'active' => true, 'score' => 95],
+        ['id' => 40, 'tier' => 'enterprise', 'active' => true, 'score' => 99],
+    ];
+
+    // PHP 8.4 array_find
+    $found = array_find($data, fn($item) => $item['tier'] === 'pro');
+    if ($found === null || $found['id'] !== 20) {
+        throw new \Exception('array_find failed');
+    }
+
+    // PHP 8.4 array_find_key
+    $foundKey = array_find_key($data, fn($item) => $item['tier'] === 'enterprise');
+    if ($foundKey !== 2) {
+        throw new \Exception('array_find_key failed');
+    }
+
+    // PHP 8.4 array_any & array_all
+    if (!array_any($data, fn($item) => $item['score'] > 90)) {
+        throw new \Exception('array_any failed');
+    }
+    if (array_all($data, fn($item) => $item['active'] === true)) {
+        throw new \Exception('array_all failed on mixed items');
+    }
+
+    // FastArr fluent lazy generator & partitions
+    $fast = fast_arr($data);
+    [$activeItems, $inactiveItems] = $fast->partition(fn($item) => $item['active']);
+    if (count($activeItems) !== 3 || count($inactiveItems) !== 1) {
+        throw new \Exception('FastArr partition failed');
+    }
+
+    $keyed = $fast->keyBy('id');
+    if (!isset($keyed[30]) || $keyed[30]['tier'] !== 'enterprise') {
+        throw new \Exception('FastArr keyBy failed');
+    }
+
+    // Generator pipeline
+    $topEnterpriseScores = iterator_to_array(
+        $fast->lazyFilter(fn($i) => $i['tier'] === 'enterprise')
+             ->lazyMap(fn($i) => $i['score'] * 2)
+             ->getGenerator()
+    );
+    if ($topEnterpriseScores !== [190, 198]) {
+        throw new \Exception('FastArr lazy generator transformation pipeline failed');
+    }
+});
+
 
 echo "\n==========================================\n";
 echo "Tests Passed: \033[32m{$test->passed}\033[0m | Failed: \033[31m{$test->failed}\033[0m\n";

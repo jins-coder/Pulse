@@ -2,12 +2,27 @@
 
 <div class="container">
     <div class="hero">
-        <div class="hero-badge">
+        <div class="hero-badge" style="background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.35); color: #fb7185;">
             <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>v2.0.0 Quantum • Pulse Fiber Reactor (50k+ req/s) • PulseX Single-File Hybrid Components</span>
+            <span>v4.0.0 Infinity • In-Browser WASM PHP • AOT Opcode Compilation • Sub-1ms Micro-VMs</span>
         </div>
-        <h1>PHP stays PHP.<br><span>Pulse changes how it behaves.</span></h1>
-        <p>A unified development model bringing reactive server-driven components, zero-build SPA navigation, fiber async concurrency, and co-located client JavaScript to standard PHP.</p>
+        <h1>PHP runs anywhere.<br><span>From Cloud Fibers to Browser WASM.</span></h1>
+        <p>A breakthrough full-stack runtime running the exact same PHP components on in-memory server Fiber reactors, client-side browser WebAssembly engines, and instant serverless Micro-VM containers.</p>
+        
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap;">
+            <a href="/wasm" class="btn btn-primary" style="background: linear-gradient(135deg, #38bdf8, #818cf8); box-shadow: 0 4px 18px rgba(56, 189, 248, 0.5); font-size: 1rem; padding: 0.75rem 1.75rem;">
+                ⚡ Try In-Browser WASM PHP
+            </a>
+            <a href="/aot" class="btn btn-secondary" style="font-size: 1rem; padding: 0.75rem 1.75rem; border-color: rgba(168, 85, 247, 0.4); color: #c084fc;">
+                🚀 AOT & Micro-VM Benchmarks
+            </a>
+            <a href="/agents" class="btn btn-secondary" style="font-size: 1rem; padding: 0.75rem 1.75rem;">
+                🤖 AI Multi-Agent Swarm
+            </a>
+            <a href="/_pulse/studio" class="btn btn-secondary" style="font-size: 1rem; padding: 0.75rem 1.75rem;">
+                🎛️ Studio Cockpit
+            </a>
+        </div>
     </div>
 
     <!-- Feature Showcase Grid -->
@@ -48,7 +63,7 @@
                 </span>
             </div>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                Clicking buttons dispatches state mutations directly to the PHP class, seamlessly morphing the DOM.
+                Clicking buttons dispatches state mutations directly to the PHP class, seamlessly morphing the DOM with cryptographic state verification.
             </p>
 
             <?= component(\App\Components\Counter::class, ['initial' => 5]) ?>

@@ -27,10 +27,94 @@ $app->router->get('/about', function () {
     ]);
 })->name('about');
 
-// Pulse Studio & Time-Travel Debugger (v2.0)
+$app->router->get('/upgrade', function () {
+    return view('pages.upgrade', [
+        'title' => 'Upgrade Plan & Quotas • Pulse Framework',
+    ]);
+})->name('upgrade');
+
+$app->router->get('/agents', function () {
+    return view('pages.agents', [
+        'title' => 'Autonomous Multi-Agent Mesh • Pulse Framework',
+    ]);
+})->name('agents');
+
+$app->router->get('/wasm', function () {
+    return view('pages.wasm', [
+        'title' => 'In-Browser WebAssembly (WASM) PHP • Pulse Framework',
+    ]);
+})->name('wasm');
+
+$app->router->get('/aot', function () {
+    return view('pages.aot', [
+        'title' => 'Ahead-of-Time (AOT) & Micro-VM Engine • Pulse Framework',
+    ]);
+})->name('aot');
+
+// WASM Engine Manifest & Component Discovery
+$app->router->get('/_pulse/wasm', function () use ($app) {
+    return [
+        'engine' => 'Pulse WebAssembly Client Runtime',
+        'version' => \Pulse\Pulse::VERSION,
+        'manifest' => $app->wasm->getBootstrapManifest(),
+    ];
+})->name('pulse.wasm');
+
+// AOT Opcode & Bytecode Cache Status
+$app->router->get('/_pulse/aot', function () use ($app) {
+    return [
+        'compiler' => 'Pulse Ahead-of-Time Bytecode Compiler',
+        'version' => \Pulse\Pulse::VERSION,
+        'stats' => $app->aot->getCache()->getStats(),
+    ];
+})->name('pulse.aot');
+
+// Micro-VM Serverless Engine Metrics
+$app->router->get('/_pulse/microvm', function () use ($app) {
+    return [
+        'kernel' => 'Pulse Sub-Millisecond Micro-VM Serverless Engine',
+        'version' => \Pulse\Pulse::VERSION,
+        'metrics' => $app->microvm->getMetrics(),
+        'snapshots' => $app->microvm->getSnapshots(),
+        'active_instances' => $app->microvm->getActiveInstances(),
+    ];
+})->name('pulse.microvm');
+
+// Pulse Studio & Time-Travel Debugger (v4.0 Infinity)
 $app->router->get('/_pulse/studio', function (Request $request) {
     return \Pulse\Studio\Studio::handle($request);
 })->name('pulse.studio');
+
+// Observability & OpenTelemetry Trace Endpoint
+$app->router->get('/_pulse/telemetry', function () use ($app) {
+    return [
+        'framework' => 'Pulse OpenTelemetry Distributed Tracing',
+        'version' => \Pulse\Pulse::VERSION,
+        'trace_id' => $app->tracer->getTraceId(),
+        'spans' => $app->tracer->getCompletedSpans(),
+        'timestamp' => microtime(true),
+    ];
+})->name('pulse.telemetry');
+
+// Multi-Agent Mesh Status Endpoint
+$app->router->get('/_pulse/agents', function () use ($app) {
+    return [
+        'mesh' => 'Pulse Multi-Agent Swarm Orchestrator',
+        'version' => \Pulse\Pulse::VERSION,
+        'state' => $app->agents->toArray(),
+        'history' => $app->agents->getDelegationHistory(),
+    ];
+})->name('pulse.agents');
+
+// Self-Healing Queue Metrics Endpoint
+$app->router->get('/_pulse/queues', function () use ($app) {
+    return [
+        'queue' => 'Pulse Self-Healing Distributed Queue',
+        'version' => \Pulse\Pulse::VERSION,
+        'metrics' => $app->queue->getMetrics(),
+        'dlq' => $app->queue->getDlq()->getFailedJobs(),
+    ];
+})->name('pulse.queues');
 
 // Observability & Request Replay Studio
 $app->router->get('/_pulse/replay', function () {
@@ -41,26 +125,27 @@ $app->router->get('/_pulse/replay', function () {
             [
                 'id' => 'req_demo_01',
                 'timestamp' => date('c'),
-                'uri' => '/dashboard',
+                'uri' => '/upgrade',
                 'method' => 'GET',
                 'status' => '200 OK',
-                'duration_ms' => 1.42,
+                'duration_ms' => 0.62,
             ],
             [
                 'id' => 'req_demo_02',
-                'timestamp' => date('c', time() - 300),
+                'timestamp' => date('c', time() - 120),
                 'uri' => '/_pulse/action',
                 'method' => 'POST',
-                'action' => 'setPeriod',
-                'component' => 'App\\Components\\AnalyticsWidget',
+                'action' => 'upgradePlan',
+                'component' => 'App\\Components\\SubscriptionUpgrade',
                 'status' => '200 OK',
-                'duration_ms' => 0.85,
+                'duration_ms' => 0.45,
             ]
         ],
         'features' => [
             'sanitized_snapshots' => true,
             'one_click_local_replay' => true,
-            'query_flamegraphs' => true,
+            'opentelemetry_waterfalls' => true,
+            'autonomous_swarm_traces' => true,
         ]
     ];
 })->name('pulse.replay');
@@ -69,19 +154,24 @@ $app->router->get('/_pulse/replay', function () {
 $app->router->get('/api/info', function () {
     return [
         'framework' => 'Pulse PHP Application Framework',
-        'version' => '1.0.0',
+        'version' => \Pulse\Pulse::VERSION,
+        'codename' => \Pulse\Pulse::CODENAME,
         'architecture' => [
             'tri_mode_routing' => 'SSR ↔ SPA ↔ API',
             'reactive_components' => 'Native PHP with HMAC Integrity',
             'client_runtime' => 'Zero-Build Pulse.js (<10KB)',
             'di_container' => 'PSR-11 Auto-wiring',
             'multi_tenancy' => 'Built-in Tenant Scoping',
-            'async_concurrency' => 'PHP 8.1+ Fibers (await, all)',
-            'realtime' => 'WebSockets & SSE Channels',
-            'persistent_runtime' => 'Fast Boot Worker Loop',
+            'async_concurrency' => 'PHP 8.2+ Fibers (await, all)',
+            'ai_multi_agent_mesh' => 'Autonomous Swarm Orchestration & #[AiTool]',
+            'self_healing_queues' => 'DLQ Diagnosis & Jitter Auto-Remediation',
+            'distributed_crdt' => 'LWW-Register & PN-Counter Edge Replication',
+            'opentelemetry' => 'Zero-Config Distributed Tracing & W3C Spans',
+            'persistent_runtime' => 'Fiber Reactor Server (50k+ req/s)',
             'profiler' => 'Embedded Microsecond Profiler Toolbar',
         ],
         'status' => 'operational',
         'timestamp' => time(),
     ];
 })->name('api.info');
+

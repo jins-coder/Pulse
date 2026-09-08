@@ -33,4 +33,13 @@ class ChannelManager
         $messages = self::$channels[$channel] ?? [];
         return array_values(array_filter($messages, fn($m) => $m['timestamp'] > $sinceTimestamp));
     }
+
+    public static function syncCrdt(string $channel, array $crdtState): void
+    {
+        self::broadcast($channel, 'crdt:sync', [
+            'origin' => CrdtStateSync::getInstance()->getNodeId(),
+            'state' => $crdtState,
+            'synced_at' => microtime(true),
+        ]);
+    }
 }

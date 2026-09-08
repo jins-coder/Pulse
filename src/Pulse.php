@@ -34,21 +34,34 @@ use Pulse\Component\StateHydrator;
 use Pulse\Component\Component;
 use Pulse\Events\EventBus;
 use Pulse\Queue\QueueManager;
+use Pulse\Queue\SelfHealingQueue;
 use Pulse\Profiler\PerformanceProfiler;
 use Pulse\Plugins\PluginManager;
+use Pulse\Telemetry\Tracer;
+use Pulse\AI\AgentMesh;
+use Pulse\Realtime\CrdtStateSync;
+use Pulse\Wasm\WasmRuntime;
+use Pulse\Compiler\AotCompiler;
+use Pulse\Runtime\MicroVM\MicroVMKernel;
 
 class Pulse
 {
-    public const VERSION = '2.0.0';
-    public const CODENAME = 'Quantum';
+    public const VERSION = '4.0.0';
+    public const CODENAME = 'Infinity';
 
     private static ?Pulse $instance = null;
     public readonly Container $container;
     public readonly Router $router;
     public readonly ViewEngine $viewEngine;
     public readonly EventBus $events;
-    public readonly QueueManager $queue;
+    public readonly SelfHealingQueue $queue;
     public readonly PluginManager $plugins;
+    public readonly Tracer $tracer;
+    public readonly AgentMesh $agents;
+    public readonly CrdtStateSync $crdt;
+    public readonly WasmRuntime $wasm;
+    public readonly AotCompiler $aot;
+    public readonly MicroVMKernel $microvm;
     public ?PerformanceProfiler $profiler = null;
     protected string $basePath;
     protected array $globalMiddleware = [
@@ -63,8 +76,14 @@ class Pulse
         $this->router = new Router();
         $this->viewEngine = new ViewEngine($this->basePath . '/resources/views');
         $this->events = new EventBus();
-        $this->queue = new QueueManager();
+        $this->queue = new SelfHealingQueue();
         $this->plugins = new PluginManager();
+        $this->tracer = Tracer::getInstance();
+        $this->agents = AgentMesh::getInstance();
+        $this->crdt = CrdtStateSync::getInstance();
+        $this->wasm = WasmRuntime::getInstance();
+        $this->aot = AotCompiler::getInstance();
+        $this->microvm = MicroVMKernel::getInstance();
         $this->profiler = new PerformanceProfiler();
 
         // Register core singletons
@@ -74,6 +93,13 @@ class Pulse
         $this->container->instance(ViewEngine::class, $this->viewEngine);
         $this->container->instance(EventBus::class, $this->events);
         $this->container->instance(QueueManager::class, $this->queue);
+        $this->container->instance(SelfHealingQueue::class, $this->queue);
+        $this->container->instance(Tracer::class, $this->tracer);
+        $this->container->instance(AgentMesh::class, $this->agents);
+        $this->container->instance(CrdtStateSync::class, $this->crdt);
+        $this->container->instance(WasmRuntime::class, $this->wasm);
+        $this->container->instance(AotCompiler::class, $this->aot);
+        $this->container->instance(MicroVMKernel::class, $this->microvm);
 
         self::$instance = $this;
     }
@@ -205,5 +231,9 @@ function view(string $template, array $data = []): string { return \view($templa
 function component(string $class, array $params = []): string { return \component($class, $params); }
 function route(string $name, array $params = []): string { return \route($name, $params); }
 function e(mixed $value): string { return \e($value); }
-function event(object $event): object { return \event($event); }
-function queue(): QueueManager { return \queue(); }
+function tracer(): \Pulse\Telemetry\Tracer { return \tracer(); }
+function agents(): \Pulse\AI\AgentMesh { return \agents(); }
+function crdt(): \Pulse\Realtime\CrdtStateSync { return \crdt(); }
+function wasm(): \Pulse\Wasm\WasmRuntime { return \wasm(); }
+function aot(): \Pulse\Compiler\AotCompiler { return \aot(); }
+function microvm(): \Pulse\Runtime\MicroVM\MicroVMKernel { return \microvm(); }
