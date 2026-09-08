@@ -1333,6 +1333,22 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    if (pathname === '/docs' || pathname === '/docs/') {
+        const docPagePath = path.join(__dirname, 'resources/views/pages/docs.php');
+        let rawContent = fs.readFileSync(docPagePath, 'utf8');
+        // Strip <?php $this->extends('layout'); ?>
+        rawContent = rawContent.replace(/<\?php[\s\S]*?\?>/g, '');
+        if (isSpa) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ url: '/docs', title: 'Documentation • Pulse PHP Application Framework (Laravel-Style)', html: rawContent }));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(getLayout(rawContent, 'Documentation • Pulse PHP Application Framework (Laravel-Style)'));
+        }
+        return;
+    }
+
+
 
     if (pathname === '/_pulse/studio') {
         const content = `
