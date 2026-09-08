@@ -779,16 +779,45 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.15);
         }
 
-        .icon { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .icon { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+            }
+            .brand {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: flex-start;
+                padding-bottom: 0.4rem;
+                overflow-x: auto;
+                white-space: nowrap;
+                scrollbar-width: none;
+            }
+            .container {
+                padding: 1.25rem 0.85rem 4rem;
+            }
+            #pulse-profiler {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <a href="/" class="brand">
-            <div class="brand-icon">
-                <svg class="icon" style="stroke: #ffffff; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <div class="brand-icon">
+                    <svg class="icon" style="stroke: #ffffff; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <span>PULSE</span>
             </div>
-            <span>PULSE</span>
             <span class="brand-badge">v4.0.0</span>
         </a>
         <div class="nav-links">
@@ -810,7 +839,7 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
             </a>
             <a href="/aot" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                <span>AOT & Micro-VM</span>
+                <span>AOT</span>
             </a>
             <a href="/agents" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path></svg>
@@ -849,6 +878,7 @@ function getLayout(content, title = 'Pulse PHP Application Framework') {
 }
 
 function getHomeContent() {
+
 
     return `
     <div class="container">

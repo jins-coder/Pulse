@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title><?= e($title ?? 'Pulse PHP Application Framework') ?></title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,20 +49,22 @@
             min-height: 100vh;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* Top Clean Navbar */
+        /* Top Clean Responsive Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.9rem 2rem;
+            padding: 0.85rem 1.5rem;
             background: #ffffff;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 50;
             box-shadow: var(--shadow-sm);
+            gap: 1rem;
         }
 
         .brand {
@@ -74,6 +76,7 @@
             font-weight: 800;
             font-size: 1.25rem;
             letter-spacing: -0.02em;
+            flex-shrink: 0;
         }
 
         .brand-icon {
@@ -100,9 +103,15 @@
 
         .nav-links {
             display: flex;
-            gap: 1.25rem;
+            gap: 0.5rem;
             align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 0.2rem 0;
         }
+        .nav-links::-webkit-scrollbar { display: none; }
 
         .nav-link {
             display: inline-flex;
@@ -111,10 +120,11 @@
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: color 0.15s ease;
-            padding: 0.35rem 0.6rem;
+            font-size: 0.88rem;
+            transition: color 0.15s ease, background-color 0.15s ease;
+            padding: 0.35rem 0.65rem;
             border-radius: var(--radius-sm);
+            flex-shrink: 0;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -125,13 +135,13 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem 5rem;
+            padding: 2rem 1.25rem 5rem;
         }
 
-        /* Hero Header */
+        /* Hero Header with Fluid Scaling */
         .hero {
             text-align: center;
-            padding: 3rem 1rem 2rem;
+            padding: 2.5rem 0.75rem 1.5rem;
             max-width: 820px;
             margin: 0 auto;
         }
@@ -145,16 +155,18 @@
             border: 1px solid #fecaca;
             border-radius: 9999px;
             color: var(--accent-red);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
             margin-bottom: 1.25rem;
+            max-width: 100%;
+            word-break: break-word;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: clamp(1.85rem, 5vw, 3rem);
             font-weight: 800;
             letter-spacing: -0.03em;
-            line-height: 1.18;
+            line-height: 1.2;
             margin-bottom: 1rem;
             color: var(--text-main);
         }
@@ -164,19 +176,23 @@
         }
 
         .hero p {
-            font-size: 1.125rem;
+            font-size: clamp(0.95rem, 2.5vw, 1.125rem);
             color: var(--text-muted);
             line-height: 1.65;
         }
 
-        /* Clean White Cards */
+        /* Responsive Cards */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 1.75rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow-sm);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        @media (min-width: 640px) {
+            .card { padding: 1.75rem; }
         }
 
         .card:hover {
@@ -186,13 +202,15 @@
 
         .card-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
             margin-bottom: 1.25rem;
         }
 
         .card-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--text-main);
             display: flex;
@@ -209,6 +227,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .badge {
@@ -224,13 +243,14 @@
             border: 1px solid var(--border);
         }
 
-        /* Clean Buttons */
+        /* Touch-Friendly Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
+            padding: 0.65rem 1.25rem;
+            min-height: 42px;
             font-size: 0.9rem;
             font-weight: 600;
             border-radius: var(--radius-md);
@@ -239,6 +259,7 @@
             transition: all 0.15s ease;
             text-decoration: none;
             font-family: inherit;
+            touch-action: manipulation;
         }
 
         .btn-primary {
@@ -266,6 +287,7 @@
         .input-text {
             width: 100%;
             padding: 0.65rem 1rem;
+            min-height: 42px;
             background: #ffffff;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
@@ -289,13 +311,36 @@
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
+            flex-shrink: 0;
         }
 
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+            }
+            .brand {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: flex-start;
+                padding-bottom: 0.4rem;
+            }
+            .container {
+                padding: 1.25rem 0.85rem 4rem;
+            }
         }
 
         [loading] { transition: opacity 0.2s ease; }
@@ -305,10 +350,12 @@
 <body>
     <nav class="navbar">
         <a href="/" class="brand">
-            <div class="brand-icon">
-                <svg class="icon" style="stroke: #ffffff; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <div class="brand-icon">
+                    <svg class="icon" style="stroke: #ffffff; stroke-width: 2.5;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <span>PULSE</span>
             </div>
-            <span>PULSE</span>
             <span class="brand-badge">v4.0.0</span>
         </a>
         <div class="nav-links">
@@ -330,7 +377,7 @@
             </a>
             <a href="/aot" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                <span>AOT & Micro-VM</span>
+                <span>AOT</span>
             </a>
             <a href="/agents" class="nav-link">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path></svg>
