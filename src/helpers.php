@@ -138,3 +138,34 @@ if (!function_exists('array_all')) {
     }
 }
 
+if (!function_exists('native')) {
+    function native(): \Pulse\Core\NativeCore {
+        return pulse()->nativeCore;
+    }
+}
+
+if (!function_exists('storage')) {
+    function storage(): \Pulse\Storage\EmbeddedStorage {
+        return pulse()->storage;
+    }
+}
+
+if (!function_exists('simd')) {
+    function simd(): \Pulse\Utils\SimdEngine {
+        return pulse()->simd;
+    }
+}
+
+if (!function_exists('vectors')) {
+    function vectors(): \Pulse\AI\VectorEngine {
+        return pulse()->vectorEngine;
+    }
+}
+
+if (!function_exists('worker')) {
+    function worker(): \Pulse\Runtime\WorkerEngine {
+        return pulse()->workerEngine;
+    }
+}
+
+

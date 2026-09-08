@@ -320,6 +320,10 @@
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path></svg>
                 <span>AI Agents</span>
             </a>
+            <a href="/beast" class="nav-link" style="color: #fbbf24; font-weight: 700;">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Beast Core</span>
+            </a>
             <a href="/upgrade" class="nav-link" style="color: #38bdf8; font-weight: 700;">
                 <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <span>Upgrade</span>

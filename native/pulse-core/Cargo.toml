@@ -1,0 +1,23 @@
+[package]
+name = "pulse-core"
+version = "4.0.0"
+edition = "2021"
+authors = ["Pulse Framework Team <team@pulsephp.dev>"]
+description = "High-performance native Rust core accelerator engine for Pulse Framework"
+
+[lib]
+name = "pulse_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+rayon = "1.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -150,6 +150,64 @@ $app->router->get('/_pulse/replay', function () {
     ];
 })->name('pulse.replay');
 
+// Beast Core Hardware SIMD & In-Memory Engine Page
+$app->router->get('/beast', function () {
+    return view('pages/beast', [
+        'title' => 'Beast Core Engine: Hardware SIMD, Rust Bridge & In-Memory Store - Pulse v4.0',
+    ]);
+})->name('beast');
+
+// Beast Core Benchmark API
+$app->router->post('/_pulse/beast/benchmark', function () use ($app) {
+    $type = $_GET['type'] ?? 'vector';
+    if ($type === 'simd') {
+        $start = microtime(true);
+        $samplePayload = [
+            'cluster' => 'beast_01',
+            'nodes' => array_map(fn($i) => ['id' => $i, 'load' => rand(10, 99), 'status' => 'OK'], range(1, 200)),
+            'timestamp' => microtime(true),
+        ];
+        $packed = \Pulse\Utils\SimdEngine::pack($samplePayload);
+        $unpacked = \Pulse\Utils\SimdEngine::unpack($packed);
+        $duration = round((microtime(true) - $start) * 1000, 3);
+        return [
+            'status' => 'success',
+            'duration_ms' => $duration,
+            'message' => "Packed & Unpacked 200 nodes in {$duration}ms (FlatPack: " . strlen($packed) . " bytes)",
+            'engine' => $app->nativeCore->getEngineDescription(),
+        ];
+    }
+
+    // Default vector search benchmark
+    $vectors = $app->vectorEngine;
+    if ($vectors->count() === 0) {
+        $vectors->insert('doc_1', $vectors->generateEmbedding('Upgrade to Enterprise Subscription Tier with Unlimited MicroVMs'), [
+            'title' => 'Enterprise Plan Documentation',
+            'category' => 'Billing',
+        ]);
+        $vectors->insert('doc_2', $vectors->generateEmbedding('High speed SIMD JSON parser and flatpack serializer in Rust'), [
+            'title' => 'SIMD Architecture Guide',
+            'category' => 'Core Engine',
+        ]);
+        $vectors->insert('doc_3', $vectors->generateEmbedding('CRDT vector clock conflict resolution for offline realtime sync'), [
+            'title' => 'Realtime Sync Specification',
+            'category' => 'Realtime',
+        ]);
+    }
+
+    $start = microtime(true);
+    $queryVec = $vectors->generateEmbedding('Enterprise billing and MicroVM plans');
+    $results = $vectors->search($queryVec, 3);
+    $duration = round((microtime(true) - $start) * 1000, 3);
+
+    return [
+        'status' => 'success',
+        'duration_ms' => $duration,
+        'results' => $results,
+        'engine' => $app->nativeCore->getEngineDescription(),
+    ];
+})->name('pulse.beast.benchmark');
+
 // API Info Endpoint
 $app->router->get('/api/info', function () {
     return [
@@ -168,10 +226,12 @@ $app->router->get('/api/info', function () {
             'distributed_crdt' => 'LWW-Register & PN-Counter Edge Replication',
             'opentelemetry' => 'Zero-Config Distributed Tracing & W3C Spans',
             'persistent_runtime' => 'Fiber Reactor Server (50k+ req/s)',
+            'beast_core' => 'Hardware SIMD, Rust C-ABI Bridge & In-Memory Vector Store',
             'profiler' => 'Embedded Microsecond Profiler Toolbar',
         ],
         'status' => 'operational',
         'timestamp' => time(),
     ];
 })->name('api.info');
+
 

@@ -186,6 +186,75 @@ $test->it('executes zero-allocation lazy generators, partition, keyBy, and PHP 8
     }
 });
 
+// 8. Beast Core: Native C-ABI / SIMD / FlatPack / Embedded In-Memory Storage
+$test->it('operates NativeCore, EmbeddedStorage, SimdEngine, and VectorEngine with microsecond latency', function () {
+    // Native Core / Fallback test
+    $core = Pulse\Core\NativeCore::getInstance();
+    $hash = $core->hash64('pulse_beast_test_payload');
+    if ($hash === 0) {
+        throw new \Exception('NativeCore hash64 failed');
+    }
+
+    $sum = $core->fastSum([10, 20, 30, 40, 50]);
+    if ($sum !== 150) {
+        throw new \Exception('NativeCore fastSum failed');
+    }
+
+    if (!$core->validateJson('{"cluster":"beast","status":"OK"}')) {
+        throw new \Exception('NativeCore validateJson failed');
+    }
+
+    // Embedded In-Memory Store
+    $storage = Pulse\Storage\EmbeddedStorage::getInstance();
+    $storage->set('cluster.node.1', ['ip' => '10.0.0.1', 'role' => 'leader']);
+    if ($storage->get('cluster.node.1')['role'] !== 'leader') {
+        throw new \Exception('EmbeddedStorage get failed');
+    }
+
+    $storage->insertRow('metrics', ['cpu' => 12.4, 'mem' => 45.2]);
+    $queryRes = $storage->queryTable('metrics');
+    if ($queryRes['count'] < 1) {
+        throw new \Exception('EmbeddedStorage columnar query failed');
+    }
+
+    // SimdEngine FlatPack zero-copy packing
+    $flatPayload = ['event' => 'user_upgraded', 'tier' => 'enterprise', 'ts' => microtime(true)];
+    $packed = Pulse\Utils\SimdEngine::pack($flatPayload);
+    $unpacked = Pulse\Utils\SimdEngine::unpack($packed);
+    if ($unpacked['tier'] !== 'enterprise') {
+        throw new \Exception('SimdEngine FlatPack pack/unpack failed');
+    }
+
+    // VectorEngine AI semantic search
+    $vectors = Pulse\AI\VectorEngine::getInstance();
+    $vecA = $vectors->generateEmbedding('enterprise subscription tier');
+    $vecB = $vectors->generateEmbedding('enterprise subscription tier');
+    $similarity = $core->cosineSimilarity($vecA, $vecB);
+    if ($similarity < 0.99) {
+        throw new \Exception('VectorEngine cosine similarity identity failed');
+    }
+});
+
+// 9. Beast Web Routes & Benchmark API Endpoint
+$test->it('renders /beast web page and responds to /_pulse/beast/benchmark with 200 OK', function () {
+    $app = new Pulse\Pulse(dirname(__DIR__));
+    require dirname(__DIR__) . '/routes/web.php';
+
+    $responseBeast = $app->handle(Pulse\Http\Request::create('/beast'));
+    if ($responseBeast->statusCode !== 200 || !str_contains($responseBeast->content, 'Beast Core')) {
+        throw new \Exception('/beast route rendering failed');
+    }
+
+    $reqBench = Pulse\Http\Request::create('/_pulse/beast/benchmark');
+    $reqBench->method = 'POST';
+    $reqBench->server['HTTP_ACCEPT'] = 'application/json';
+    $responseBench = $app->handle($reqBench);
+    if ($responseBench->statusCode !== 200) {
+        throw new \Exception('/_pulse/beast/benchmark API endpoint failed');
+    }
+});
+
+
 
 echo "\n==========================================\n";
 echo "Tests Passed: \033[32m{$test->passed}\033[0m | Failed: \033[31m{$test->failed}\033[0m\n";

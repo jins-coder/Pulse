@@ -39,10 +39,15 @@ use Pulse\Profiler\PerformanceProfiler;
 use Pulse\Plugins\PluginManager;
 use Pulse\Telemetry\Tracer;
 use Pulse\AI\AgentMesh;
+use Pulse\AI\VectorEngine;
 use Pulse\Realtime\CrdtStateSync;
 use Pulse\Wasm\WasmRuntime;
 use Pulse\Compiler\AotCompiler;
 use Pulse\Runtime\MicroVM\MicroVMKernel;
+use Pulse\Runtime\WorkerEngine;
+use Pulse\Core\NativeCore;
+use Pulse\Storage\EmbeddedStorage;
+use Pulse\Utils\SimdEngine;
 
 class Pulse
 {
@@ -62,6 +67,11 @@ class Pulse
     public readonly WasmRuntime $wasm;
     public readonly AotCompiler $aot;
     public readonly MicroVMKernel $microvm;
+    public readonly NativeCore $nativeCore;
+    public readonly EmbeddedStorage $storage;
+    public readonly SimdEngine $simd;
+    public readonly VectorEngine $vectorEngine;
+    public readonly WorkerEngine $workerEngine;
     public ?PerformanceProfiler $profiler = null;
     protected string $basePath;
     protected array $globalMiddleware = [
@@ -84,6 +94,11 @@ class Pulse
         $this->wasm = WasmRuntime::getInstance();
         $this->aot = AotCompiler::getInstance();
         $this->microvm = MicroVMKernel::getInstance();
+        $this->nativeCore = NativeCore::getInstance();
+        $this->storage = EmbeddedStorage::getInstance();
+        $this->simd = SimdEngine::getInstance();
+        $this->vectorEngine = VectorEngine::getInstance();
+        $this->workerEngine = WorkerEngine::getInstance();
         $this->profiler = new PerformanceProfiler();
 
         // Register core singletons
@@ -100,6 +115,11 @@ class Pulse
         $this->container->instance(WasmRuntime::class, $this->wasm);
         $this->container->instance(AotCompiler::class, $this->aot);
         $this->container->instance(MicroVMKernel::class, $this->microvm);
+        $this->container->instance(NativeCore::class, $this->nativeCore);
+        $this->container->instance(EmbeddedStorage::class, $this->storage);
+        $this->container->instance(SimdEngine::class, $this->simd);
+        $this->container->instance(VectorEngine::class, $this->vectorEngine);
+        $this->container->instance(WorkerEngine::class, $this->workerEngine);
 
         self::$instance = $this;
     }
